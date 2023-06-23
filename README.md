@@ -17,6 +17,10 @@ Integrate the Bridgefy SDK into your Android and iOS app to reach the 3.5 billio
 
 ## Overview
 
+![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=http%3A%2F%2F104.196.228.98%3A8081%2Fartifactory%2Flibs-release-local%2Fme%2Fbridgefy%2Fandroid-sdk%2Fmaven-metadata.xml)
+![GitHub last commit](https://img.shields.io/github/last-commit/bridgefy/sdk-android)
+![GitHub issues](https://img.shields.io/github/issues-raw/bridgefy/sdk-android?style=plastic)
+
 Bridgefy creates mesh networks in which devices connect directly to each other in a decentralized manner. This allows users to communicate with nearby devices within a certain range, forming a network without the need for a centralized server or Internet access.
 
 ![networking](https://images.saymedia-content.com/.image/t_share/MTkzOTUzODU0MDkyNjE3MjIx/particlesjs-examples.gif)
