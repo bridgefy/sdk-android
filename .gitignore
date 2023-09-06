@@ -125,3 +125,5 @@ app/release/output.json
 .examples/bridgefy-alerts/app/build
 
 examples/bridgefy-alerts/.idea/
+examples/bridgefy-alerts/app/schema/me.bridgefy.samples.alerts.model.db.main.MainDatabase/1.json
+*.json
