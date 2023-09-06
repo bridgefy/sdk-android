@@ -16,7 +16,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-val sdkProdVersion = "REPLACE_WITH_YOUR_API_KEY"
+val Bridgefy_API_Key = "REPLACE_WITH_YOUR_API_KEY"
 
 android {
     namespace = "me.bridgefy.example.android.alerts"
@@ -31,10 +31,10 @@ android {
         versionCode = AppInfo.Version.CODE
         versionName = AppInfo.Version.NAME
 
-        manifestPlaceholders["BfSDKKey"] = sdkProdVersion
+        manifestPlaceholders["BfSDKKey"] = Bridgefy_API_Key
 
         buildConfigField("String", "BUILD_NUMBER", "\"${System.getProperty("BUILD_NUMBER")}\"")
-        buildConfigField("String", "API_KEY", "\"$sdkProdVersion\"")
+        buildConfigField("String", "API_KEY", "\"$Bridgefy_API_Key\"")
 
         // used by Room, to test migrations
         ksp {
