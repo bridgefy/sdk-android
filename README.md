@@ -57,7 +57,7 @@ The Bridgefy SDK provides a set of tools and APIs that developers can use to inc
 Bridgefy SDK is available in our public repository. To install it you must follow the instructions:
 
 ```kotlin
-val bridgefy_release_maven_url = "http://104.196.228.98:8081/artifactory/libs-release-local"
+val bridgefy_release_maven_url = "http://34.82.5.94:8081/artifactory/libs-release-local"
 
 allprojects {
     repositories {
