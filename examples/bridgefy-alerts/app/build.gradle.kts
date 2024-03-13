@@ -128,7 +128,7 @@ dependencies {
     implementation(
         group = "me.bridgefy",
         name = "android-sdk",
-        version = "1.1.0",
+        version = "1.1.2",
         ext = "aar",
     ) {
         isTransitive = true
@@ -166,6 +166,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
+    implementation(libs.androidx.work.runtime)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
