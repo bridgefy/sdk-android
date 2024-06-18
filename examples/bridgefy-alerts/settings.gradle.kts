@@ -7,6 +7,10 @@ pluginManagement {
 
 //        maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
+    plugins {
+        kotlin("jvm")
+        id("org.jetbrains.kotlin.android")
+    }
 }
 
 dependencyResolutionManagement {

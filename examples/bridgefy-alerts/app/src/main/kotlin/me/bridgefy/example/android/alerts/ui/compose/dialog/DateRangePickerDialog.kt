@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerFormatter
 import androidx.compose.material3.DateRangePicker
@@ -68,7 +69,7 @@ fun DateRangePickerDialog(
             null
         },
     ) {
-        val dateFormatter = remember { DatePickerFormatter() }
+        val dateFormatter = remember { DatePickerDefaults.dateFormatter() }
         DateRangePicker(
             dateFormatter = dateFormatter,
             title = if (dialogUiState.title != null) {
@@ -78,21 +79,29 @@ fun DateRangePickerDialog(
                     Column {
                         Spacer(modifier = Modifier.height(16.dp))
                         DateRangePickerDefaults.DateRangePickerTitle(
-                            state = dateRangePickerState,
-                            modifier = Modifier.padding(PaddingValues(start = 16.dp)),
+                            displayMode = dateRangePickerState.displayMode,
+                            modifier = Modifier.padding(PaddingValues(start = 64.dp, end = 12.dp)),
                         )
                     }
                 }
             },
             headline = {
                 DateRangePickerDefaults.DateRangePickerHeadline(
-                    dateRangePickerState,
+                    selectedStartDateMillis = dateRangePickerState.selectedStartDateMillis,
+                    selectedEndDateMillis = dateRangePickerState.selectedEndDateMillis,
+                    displayMode = dateRangePickerState.displayMode,
                     dateFormatter,
-                    modifier = Modifier.padding(PaddingValues(start = 16.dp)),
+                    modifier =
+                    Modifier.padding(
+                        PaddingValues(
+                            start = 64.dp,
+                            end = 12.dp,
+                            bottom = 12.dp,
+                        ),
+                    ),
                 )
             },
             state = dateRangePickerState,
-            dateValidator = dialogUiState.dateValidator,
             showModeToggle = dialogUiState.showModeToggle,
             modifier = Modifier.heightIn(0.dp, 400.dp), // leave room for buttons
         )

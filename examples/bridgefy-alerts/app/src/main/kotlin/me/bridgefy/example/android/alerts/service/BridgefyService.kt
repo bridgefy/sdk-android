@@ -30,6 +30,7 @@ import me.bridgefy.example.android.alerts.model.repository.ConversationRepositor
 import me.bridgefy.example.android.alerts.model.repository.UserRepository
 import me.bridgefy.example.android.alerts.ui.notification.NotificationChannels
 import me.bridgefy.example.android.alerts.ux.main.MainActivity
+import me.bridgefy.logger.enum.LogType
 import java.util.UUID
 import javax.inject.Inject
 
@@ -124,12 +125,12 @@ class BridgefyService : Service(), BridgefyDelegate {
         bridgefy.init(
             bridgefyApiKey = UUID.fromString(BuildConfig.API_KEY),
             delegate = this,
-            priorityLogging = Log.DEBUG,
+            logging = LogType.ConsoleLogger(Log.DEBUG),
         )
 
         bridgefy.start(
             userId = null,
-            propagationProfile = PropagationProfile.Standard,
+            propagationProfile = PropagationProfile.LongReach,
         )
     }
 
