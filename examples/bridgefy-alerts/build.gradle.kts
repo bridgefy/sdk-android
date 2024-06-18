@@ -12,17 +12,26 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.android.gradlePluginClasspath)
-        classpath(libs.kotlin.gradlePluginClasspath)
-        classpath(libs.google.hilt.gradlePluginClasspath)
-        classpath(libs.gradleVersions.gradlePluginClasspath)
-        classpath(libs.dbtools.licenseManager.gradlePluginClasspath)
         classpath(libs.ruler.gradlePluginClasspath)
     }
 }
 
 plugins {
-    id("com.autonomousapps.dependency-analysis") version "1.20.0"
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.gms) apply false // must be defined BEFORE firebase
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.perf) apply false
+    alias(libs.plugins.room) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.licenseManager) apply false
+    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.kover) apply false
+    alias(libs.plugins.versions)
+    alias(libs.plugins.dependencyAnalysis)
 }
 
 @OptIn(ExperimentalStdlibApi::class) // to use buildList (remove with Kotlin 1.5?)
@@ -96,5 +105,5 @@ fun depGroupAndName(dependency: Provider<MinimalExternalModuleDependency>): Stri
 }
 
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }

@@ -6,7 +6,7 @@ object AppInfo {
     // Manifest version information
     object Version {
         const val CODE = 1005
-        val NAME = "1.0.1"
+        val NAME = "1.0.4"
     }
 
     object AndroidSdk {

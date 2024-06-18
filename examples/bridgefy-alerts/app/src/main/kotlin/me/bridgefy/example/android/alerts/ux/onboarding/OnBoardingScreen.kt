@@ -42,33 +42,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import me.bridgefy.example.android.alerts.ux.login.LoginRoute
 import me.bridgefy.example.android.alerts.R
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.MultiplePermissionsState
-import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import kotlinx.coroutines.launch
-
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun BridgefyPermissions(
-    multiplePermissionState: MultiplePermissionsState,
-) {
-    PermissionsRequired(
-        multiplePermissionsState = multiplePermissionState,
-        permissionsNotAvailableContent = {},
-        permissionsNotGrantedContent = {},
-    ) {
-    }
-}
 
 @SuppressLint("InlinedApi")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 @Preview
-@ExperimentalPagerApi
 fun OnBoardingScreen(
     navController: NavController? = null,
     viewModel: OnBoardingViewModel = hiltViewModel(),
@@ -96,7 +79,7 @@ fun OnBoardingScreen(
             .fillMaxSize()
             .background(Color(236, 236, 236, 255)),
     ) {
-        BridgefyPermissions(multiplePermissionState = permissionState)
+        // BridgefyPermissions(multiplePermissionState = permissionState)
         Spacer(Modifier.height(40.dp))
         TopSection(size = items.size, index = pageState.currentPage)
         Spacer(Modifier.height(20.dp))
@@ -139,7 +122,6 @@ fun OnBoardingScreen(
     }
 }
 
-@ExperimentalPagerApi
 @Composable
 fun TopSection(size: Int, index: Int) {
     Box(
@@ -165,7 +147,6 @@ fun BoxScope.Indicators(size: Int, index: Int) {
     }
 }
 
-@ExperimentalPagerApi
 @Composable
 private fun BottomSection(
     count: Int,

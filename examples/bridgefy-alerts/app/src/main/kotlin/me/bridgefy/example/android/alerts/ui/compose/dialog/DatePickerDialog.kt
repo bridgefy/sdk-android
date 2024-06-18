@@ -56,13 +56,12 @@ fun DatePickerDialog(
             } else {
                 {
                     DatePickerDefaults.DatePickerTitle(
-                        datePickerState,
+                        displayMode = datePickerState.displayMode,
                         modifier = Modifier.padding(PaddingValues(start = 24.dp, end = 12.dp, top = 16.dp)), // DatePickerTitlePadding
                     )
                 }
             },
             state = datePickerState,
-            dateValidator = dialogUiState.dateValidator,
         )
     }
 }

@@ -1,54 +1,88 @@
 [versions]
-agp = "8.1.1"
-kotlin = "1.8.22"
-kotlinxCoroutines = "1.7.3"
-kotlinxSerialization = "1.5.1"
+agp = "8.3.1"
+buildInfoExtractorGradle = "5.2.0"
+kotlin = "1.9.23"
+kotlinxCoroutines = "1.8.0"
+kotlinxSerialization = "1.6.3"
+kotlinxDateTime = "0.6.0-RC.2"
 
-androidxComposeCompiler = "1.4.8"
-androidxComposeMaterial = "1.5.0-beta03"
-androidxComposeMaterial3 = "1.1.1"
-androidxComposeUi = "1.5.0-beta03"
+androidxActivity = "1.8.2"
+androidxComposeCompiler = "1.5.11"
+androidxComposeMaterial = "1.6.5"
+androidxComposeMaterial3 = "1.2.1"
+androidxComposeMaterial3Adaptive = "1.0.0-alpha10"
+androidxComposeMaterial3AdaptiveNavigation = "1.0.0-alpha05"
+androidxComposeUi = "1.6.5"
 androidxDataStore = "1.0.0"
-androidxHilt = "1.0.0"
-androidxLifecycle = "2.6.1"
-androidxNavigation = "2.7.0-beta02"
-androidxRoom = "2.6.0-alpha02"
+androidCompose = "1.0.1"
+androidxHilt = "1.2.0"
+androidxLifecycle = "2.7.0"
+androidxNavigation = "2.7.7"
+androidxRoom = "2.6.1"
 androidxSplashScreen = "1.0.1"
 androidxStartup = "1.1.1"
-androidxWindow = "1.1.0"
-androidxWork = "2.8.1"
-androidxConstraint = "2.1.4"
-androidxMaterialCompose = "1.2.0"
-googlePager = "0.24.13-rc"
-googlePermissions = "0.23.1"
+androidxWindow = "1.2.0"
+androidxWork = "2.9.0"
 
-coil = "2.4.0"
-desugarJdkLibs = "2.0.3"
-detekt = "1.23.0"
-dbtools = "8.2.0-alpha02"
+assertk = "0.28.0"
+coil = "2.6.0"
+dependencyAnalysis = "1.31.0"
+desugarJdkLibs = "2.0.4"
+detekt = "1.23.6"
+dbtools = "8.3.0"
+downloadPlugin = "5.6.0"
 
-hilt = "2.46.1"
-jacoco = "0.8.8"
-junit = "5.9.3"
-ksp = "1.8.22-1.0.11"
-leakCanary = "2.12"
-licenseManagerGradlePlugin = "1.3.0"
-mockK = "1.13.5"
-okhttp = "4.11.0"
-okio = "3.4.0"
-playPublisher = "3.8.4"
-retrofit = "2.9.0"
+firebaseBom = "32.8.0"
+firebaseAppDistPlugin = "4.2.0"
+firebaseCrashlyticsPlugin = "2.9.9"
+firebasePerfPlugin = "1.4.2"
+
+googlePlayCore = "1.8.1"
+gmsPlugin = "4.4.1"
+
+hilt = "2.51.1"
+kermit = "2.0.3"
+kover = "0.7.6"
+ksp = "1.9.23-1.0.19"
+ktor = "3.0.0-beta-1"
+leakCanary = "2.13"
+licenseManager = "1.4.0"
+mockK = "1.13.10"
+okhttp = "4.12.0"
+okio = "3.9.0"
+playPublisher = "3.9.1"
 ruler = "1.4.0"
-sqliteJdbc = "3.42.0.0"
+sqliteJdbc = "3.45.2.0"
+turbine = "1.1.0"
+versionsPlugin = "0.51.0"
+workManagerTools = "4.0.0"
+
+sonarqubeGradlePlugin = "5.0.0.4638"
+junit = "5.10.2"
+retrofit = "2.10.0"
 timber = "5.0.1"
-truth = "1.1.5"
-versionsGradlePlugin = "0.47.0"
-workManagerTools = "3.0.0"
+
+googlePager="0.34.0"
 
 [plugins]
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+download = { id = "de.undercouch.download", version.ref = "downloadPlugin" }
+firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebaseAppDistPlugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerfPlugin" }
+gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+licenseManager = { id = "org.dbtools.license-manager", version.ref = "licenseManager" }
+playPublisher = { id = "com.github.triplet.play", version.ref = "playPublisher" }
+room = { id = "androidx.room", version.ref = "androidxRoom" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
 
 [libraries]
 android-gradlePluginClasspath = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -57,11 +91,11 @@ android-desugar = { module = "com.android.tools:desugar_jdk_libs_nio", version.r
 androidx-datastorePrefs = { module = "androidx.datastore:datastore-preferences", version.ref = "androidxDataStore" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidxStartup" }
 
-androidx-preference = { module = "androidx.preference:preference", version.ref = "androidxMaterialCompose"}
+androidx-preference = { module = "androidx.preference:preference-ktx", version = "1.2.1"}
 
-androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidxMaterialCompose" }
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidxComposeMaterial" }
 google-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "googlePager" }
-google-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "googlePermissions" }
+google-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "googlePager" }
 
 
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidxHilt" }
@@ -80,8 +114,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidxRoom" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidxRoom" }
 
-androidx-compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidxSplashScreen" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidxConstraint" }
+androidx-compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidCompose" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxSplashScreen" }
 
 androidx-window = { module = "androidx.window:window", version.ref = "androidxWindow" }
@@ -102,8 +135,6 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "androidxComposeMaterial3" }
 
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "hilt" }
-
-dbtools-licenseManager-gradlePluginClasspath = { module = "org.dbtools:license-manager-gradle-plugin", version.ref = "licenseManagerGradlePlugin" }
 
 dbtools-room = { module = "org.dbtools:dbtools-room", version.ref = "dbtools" }
 dbtools-roomSqlite = { module = "org.dbtools:dbtools-room-sqliteorg", version.ref = "dbtools" }
@@ -139,10 +170,6 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 ruler-gradlePluginClasspath = { module = "com.spotify.ruler:ruler-gradle-plugin", version.ref = "ruler" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
-
-gradleVersions-gradlePluginClasspath = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versionsGradlePlugin" }
 
 workmanagertools = { module = "org.dbtools:workmanager-tools", version.ref = "workManagerTools" }
 
