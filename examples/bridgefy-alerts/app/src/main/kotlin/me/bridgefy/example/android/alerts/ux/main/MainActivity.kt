@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.bridgefy.example.android.alerts.model.data.DisplayThemeType
 import me.bridgefy.example.android.alerts.service.BridgefyService
+import me.bridgefy.example.android.alerts.ui.notification.NotificationChannels
 import me.bridgefy.example.android.alerts.ui.theme.AppTheme
 import timber.log.Timber
 
@@ -90,6 +91,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Turn off the decor fitting system windows, which allows us to handle insets, including IME animations (OS statusbar and nav bar colors is handled by app)
         WindowCompat.setDecorFitsSystemWindows(window, true)
+        NotificationChannels.registerAllChannels(this)
 
         installSplashScreen()
 
