@@ -3,17 +3,22 @@
 import java.util.Date
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("org.dbtools.license-manager")
-    id("de.undercouch.download") version "5.4.0"
-    id("com.spotify.ruler")
-    id("org.gradle.jacoco")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.gms)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.firebase.appdistribution)
+//    alias(libs.plugins.firebase.perf)
+    alias(libs.plugins.download)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.room)
     alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.playPublisher)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.licenseManager)
+    id("com.spotify.ruler")
 }
 
 val Bridgefy_API_Key = "REPLACE_WITH_YOUR_API_KEY"
@@ -36,12 +41,16 @@ android {
         buildConfigField("String", "BUILD_NUMBER", "\"${System.getProperty("BUILD_NUMBER")}\"")
         buildConfigField("String", "API_KEY", "\"$Bridgefy_API_Key\"")
 
+        room {
+            schemaDirectory("$projectDir/schema")
+        }
+
         // used by Room, to test migrations
         ksp {
-            arg("room.schemaLocation", "$projectDir/schema")
+            // options that are not yet in the Room Gradle plugin
+            // https://developer.android.com/jetpack/androidx/releases/room#gradle-plugin
             arg("room.incremental", "true")
-            arg("room.generateKotlin", "true") // generate kotlin code (requires Room 2.6.x)
-//            arg("room.useNullAwareTypeAnalysis", "false") // optional param to turn OFF TypeConverter analyzer (introduced in Room 2.4.0-beta02)
+            arg("room.generateKotlin", "true")
         }
 
         // for use with Room gradle plugin
@@ -128,7 +137,7 @@ dependencies {
     implementation(
         group = "me.bridgefy",
         name = "android-sdk",
-        version = "1.1.2",
+        version = "1.1.4",
         ext = "aar",
     ) {
         isTransitive = true
@@ -156,9 +165,9 @@ dependencies {
 
     // Inject
     implementation(libs.google.hilt.library)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.work)
 
     // Android Architecture Components
@@ -184,7 +193,6 @@ dependencies {
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit)
 
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.compose.constraintlayout)
     implementation(libs.androidx.compose.material)
     implementation(libs.google.pager)
@@ -199,61 +207,64 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.mockK)
-    testImplementation(libs.truth)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.okhttp.mockwebserver)
     testImplementation(libs.dbtools.roomJdbc)
     testImplementation(libs.xerial.sqlite)
-
-    kaptTest(libs.dagger.compiler)
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-jacoco {
-    toolVersion = libs.versions.jacoco.get().toString()
-}
-
-val jacocoTestReport = tasks.create("jacocoTestReport")
-
-androidComponents.onVariants { variant ->
-    val testTaskName = "test${variant.name.capitalize()}UnitTest"
-    val reportTask =
-        tasks.register("jacoco${testTaskName.capitalize()}Report", JacocoReport::class) {
-            dependsOn(testTaskName)
-
-            reports {
-                xml.required.set(true)
-                html.required.set(true)
-            }
-
-            classDirectories.setFrom(
-                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
-                    exclude(
-                        listOf(
-                            // Android
-                            "**/R.class",
-                            "**/R\$*.class",
-                            "**/BuildConfig.*",
-                            "**/Manifest*.*",
-                            // App Specific
-                        ),
-                    )
-                },
+// ===== Kover (JUnit Coverage Reports) =====
+// ./gradlew koverHtmlReportDebug
+// ./gradlew koverXmlReportDebug
+// ./gradlew koverVerifyDebug
+koverReport {
+    filters {
+        excludes {
+            packages(
+                "*hilt_aggregated_deps*",
+                "*codegen*",
+                // App Specific
+                "me.bridgefy.example.android.alerts.ui",
             )
 
-            sourceDirectories.setFrom(
-                files(
-                    "$projectDir/src/main/java",
-                    "$projectDir/src/main/kotlin",
-                ),
+            classes(
+                "*Fragment",
+                "*Fragment\$*",
+                "*Activity",
+                "*Activity\$*",
+                "*.databinding.*",
+                "*.BuildConfig",
+                "*Factory",
+                "*_HiltModules*",
+                "*_Impl*",
+                "*ComposableSingletons*",
+                "*Hilt*",
+                "*Initializer*",
+                // App Specific
+                "*MainAppScaffoldWithNavBarKt*",
             )
-            executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
+
+            annotatedBy(
+                "*Composable*",
+                "*HiltAndroidApp*",
+                "*HiltViewModel*",
+                "*HiltWorker*",
+                "*AndroidEntryPoint*",
+                "*Module*",
+                "*SuppressCoverage*",
+            )
         }
+    }
 
-    jacocoTestReport.dependsOn(reportTask)
+    verify {
+        rule {
+            minBound(25) // minimum percent coverage without failing build (Line percent)
+        }
+    }
 }
 
 ruler {
@@ -276,24 +287,25 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     dependsOn("downloadDetektConfig")
 }
 
+// ./gradlew detekt
 detekt {
-    allRules = true
-    buildUponDefaultConfig = true
-    config.setFrom(files("$projectDir/build/config/detektConfig.yml"))
+    allRules = true // fail build on any finding
+    buildUponDefaultConfig = true // preconfigure defaults
+    // point to your custom config defining rules to run, overwriting default behavior
+    config.from(files("$projectDir/build/config/detektConfig.yml"))
+//    baseline = file("$projectDir/config/baseline.xml") // a way of suppressing issues before introducing detekt
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-    exclude("**/ui/compose/icons/**")
-
-    exclude("**/about/samples/**")
-
     reports {
-        html.required.set(true)
-        xml.required.set(true)
-        txt.required.set(true)
+        html.required.set(true) // observe findings in your browser with structure and code snippets
+        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
     }
 }
 
+// ./gradlew createLicenseReports
+// ./gradlew --stacktrace -i createLicenseReports
 licenseManager {
     variantName = "release"
     outputDirs = listOf("./src/main/assets", "./build/licenses")
