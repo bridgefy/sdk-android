@@ -63,6 +63,7 @@ retrofit = "2.10.0"
 timber = "5.0.1"
 
 googlePager="0.34.0"
+uiToolingPreviewAndroid = "1.6.8"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -174,3 +175,4 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 workmanagertools = { module = "org.dbtools:workmanager-tools", version.ref = "workManagerTools" }
 
 xerial-sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqliteJdbc" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }

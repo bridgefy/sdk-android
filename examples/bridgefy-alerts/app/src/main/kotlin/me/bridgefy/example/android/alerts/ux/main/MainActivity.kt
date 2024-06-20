@@ -11,6 +11,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.getValue
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -77,14 +79,14 @@ class MainActivity : ComponentActivity() {
     private fun bringServiceToForeground() {
         bridgefyService?.let {
             if (!it.isForegroundService) {
-                val intent = Intent(this, BridgefyService::class.java)
-                intent.action = BridgefyService.FOREGROUND_SERVICE
-                ContextCompat.startForegroundService(this, intent)
-                it.doForegroundThings()
-            } else {
-                Timber.log(Log.WARN, "Service is already in foreground")
+                val notificationManager = NotificationManagerCompat.from(this)
+                if(notificationManager.areNotificationsEnabled()) {
+                    val intent = Intent(this, BridgefyService::class.java)
+                    intent.action = BridgefyService.FOREGROUND_SERVICE
+                    it.doForegroundThings()
+                }
             }
-        } ?: Timber.log(Log.WARN, "Service is null")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
