@@ -21,7 +21,7 @@ plugins {
     id("com.spotify.ruler")
 }
 
-val Bridgefy_API_Key = "REPLACE_WITH_YOUR_API_KEY"
+val Bridgefy_API_Key = "REPLACE_WITH_YOUR_OWN_API_KEY"
 
 android {
     namespace = "me.bridgefy.example.android.alerts"
@@ -101,6 +101,9 @@ android {
     }
 
     buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         val debug by getting {
             versionNameSuffix = " DEV"
             buildConfigField("long", "BUILD_TIME", "0l")
@@ -144,6 +147,7 @@ dependencies {
     }
 
     implementation(libs.androidx.preference)
+    implementation(libs.androidx.ui.tooling.preview.android)
 
     // Android
     coreLibraryDesugaring(libs.android.desugar)
