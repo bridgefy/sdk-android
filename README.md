@@ -75,7 +75,7 @@ In the app module **build.gradle** :
  * @see http://www.gradle.org/docs/current/userguide/userguide_single.html#sec:how_to_declare_your_dependencies  
  */  
 dependencies {  
-    implementation (group = "me.bridgefy", name = "android-sdk", version = "1.2.2", ext = "aar") {  
+    implementation (group = "me.bridgefy", name = "android-sdk", version = "1.2.3", ext = "aar") {  
         isTransitive = true  
     }  
 }  
