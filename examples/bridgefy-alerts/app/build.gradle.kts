@@ -140,7 +140,7 @@ dependencies {
     implementation(
         group = "me.bridgefy",
         name = "android-sdk",
-        version = "1.1.4",
+        version = "1.2.5",
         ext = "aar",
     ) {
         isTransitive = true
