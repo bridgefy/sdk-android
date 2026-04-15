@@ -51,7 +51,6 @@ class PreferenceMigrations(
     migrations: List<PreferenceMigration>,
     private val destructiveFallback: Boolean = false,
 ) : DataMigration<Preferences> {
-
     private val migrationTree = mutableMapOf<Int, TreeMap<Int, PreferenceMigration>>()
 
     init {
@@ -74,9 +73,7 @@ class PreferenceMigrations(
         }
     }
 
-    override suspend fun shouldMigrate(currentData: Preferences): Boolean {
-        return (currentData[PREFERENCES_VERSION_KEY] ?: 0) != version
-    }
+    override suspend fun shouldMigrate(currentData: Preferences): Boolean = (currentData[PREFERENCES_VERSION_KEY] ?: 0) != version
 
     override suspend fun migrate(currentData: Preferences): Preferences {
         val fromVersion = currentData[PREFERENCES_VERSION_KEY] ?: 0
@@ -106,7 +103,10 @@ class PreferenceMigrations(
         // Do nothing
     }
 
-    private fun findMigrationPath(fromVersion: Int, toVersion: Int): List<PreferenceMigration> {
+    private fun findMigrationPath(
+        fromVersion: Int,
+        toVersion: Int,
+    ): List<PreferenceMigration> {
         if (fromVersion == toVersion) {
             return emptyList()
         }
@@ -125,18 +125,20 @@ class PreferenceMigrations(
             val targetNodes: TreeMap<Int, PreferenceMigration> = migrationTree[start] ?: return emptyList()
             // keys are ordered so we can start searching from one end of them.
             var keySet: Set<Int>
-            keySet = if (upgrade) {
-                targetNodes.descendingKeySet()
-            } else {
-                targetNodes.keys
-            }
+            keySet =
+                if (upgrade) {
+                    targetNodes.descendingKeySet()
+                } else {
+                    targetNodes.keys
+                }
             var found = false
             for (targetVersion in keySet) {
-                val shouldAddToPath: Boolean = if (upgrade) {
-                    targetVersion in (start + 1)..toVersion
-                } else {
-                    targetVersion in toVersion until start
-                }
+                val shouldAddToPath: Boolean =
+                    if (upgrade) {
+                        targetVersion in (start + 1)..toVersion
+                    } else {
+                        targetVersion in toVersion until start
+                    }
                 if (shouldAddToPath) {
                     val target = checkNotNull(targetNodes[targetVersion]) { "Target was null... should NEVER happen" }
                     result.add(target)
@@ -160,7 +162,10 @@ class PreferenceMigrations(
             sharedPreferencesName: String = context.packageName + "_preferences", // default provided by PreferenceManager.getDefaultSharedPreferences(context)
             shouldRunMigration: suspend (Preferences) -> Boolean = { it[PREFERENCES_VERSION_KEY] == null },
             migrate: suspend (SharedPreferencesView, Preferences) -> Preferences,
-        ) = SharedPreferencesMigration(context, sharedPreferencesName, shouldRunMigration = shouldRunMigration, migrate = { sharedPrefs, currentData ->
+        ) = SharedPreferencesMigration(context, sharedPreferencesName, shouldRunMigration = shouldRunMigration, migrate = {
+            sharedPrefs,
+            currentData,
+            ->
             val mutablePreferences = migrate(sharedPrefs, currentData).toMutablePreferences()
 
             mutablePreferences[PREFERENCES_VERSION_KEY] = toVersion
@@ -176,7 +181,10 @@ class PreferenceMigrations(
             sharedPreferencesName: String = context.packageName + "_preferences", // default provided by PreferenceManager.getDefaultSharedPreferences(context)
             shouldRunMigration: suspend (Preferences) -> Boolean = { it[PREFERENCES_VERSION_KEY] == null },
             migrate: suspend (SharedPreferencesView, Preferences) -> Preferences,
-        ) = SharedPreferencesMigration(context, sharedPreferencesName, keysToMigrate, shouldRunMigration, migrate = { sharedPrefs, currentData ->
+        ) = SharedPreferencesMigration(context, sharedPreferencesName, keysToMigrate, shouldRunMigration, migrate = {
+            sharedPrefs,
+            currentData,
+            ->
             val mutablePreferences = migrate(sharedPrefs, currentData).toMutablePreferences()
 
             mutablePreferences[PREFERENCES_VERSION_KEY] = toVersion
@@ -186,6 +194,9 @@ class PreferenceMigrations(
     }
 }
 
-abstract class PreferenceMigration(val fromVersion: Int, val toVersion: Int) {
+abstract class PreferenceMigration(
+    val fromVersion: Int,
+    val toVersion: Int,
+) {
     abstract suspend fun migrate(currentData: Preferences): Preferences
 }

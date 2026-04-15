@@ -60,9 +60,10 @@ fun TimePickerDialog(
                 // Buttons
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
                 ) {
                     if (onDismissButtonClicked != null) {
                         TextButton(
@@ -89,9 +90,7 @@ fun TimePickerDialog(
 }
 
 @Composable
-fun TimePickerDialog(
-    dialogUiState: TimePickerDialogUiState,
-) {
+fun TimePickerDialog(dialogUiState: TimePickerDialogUiState) {
     val initialTime: LocalTime? = dialogUiState.localTime
 
     TimePickerDialog(

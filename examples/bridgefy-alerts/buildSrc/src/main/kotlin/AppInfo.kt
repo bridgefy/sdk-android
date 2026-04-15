@@ -10,8 +10,8 @@ object AppInfo {
     }
 
     object AndroidSdk {
-        const val MIN = 23
-        const val COMPILE = 34
-        const val TARGET = 34
+        const val MIN = 24
+        const val COMPILE = 35
+        const val TARGET = 35
     }
 }

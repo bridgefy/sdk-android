@@ -52,16 +52,18 @@ fun QuotedMessage(
             Row {
                 Surface(
                     color = color,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(4.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxHeight()
+                            .width(4.dp),
                 ) {
                 }
 
                 Column(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .wrapContentHeight(),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .wrapContentHeight(),
                 ) {
                     Text(
                         "You",
@@ -102,10 +104,11 @@ fun QuotedMessage(
                     painter = painterResource(id = quotedImage),
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .layoutId("image")
-                        .size(60.dp)
-                        .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)),
+                    modifier =
+                        Modifier
+                            .layoutId("image")
+                            .size(60.dp)
+                            .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)),
                 )
             }
         },
@@ -131,15 +134,16 @@ private fun QuoteImageRow(
 
         var imageIndex = -1
 
-        val placeables = measurables.mapIndexed { index, measurable ->
+        val placeables =
+            measurables.mapIndexed { index, measurable ->
 
-            if (measurable.layoutId == "image") {
-                imageIndex = index
-            }
+                if (measurable.layoutId == "image") {
+                    imageIndex = index
+                }
 
-            measurable.measure(constraints = constraints.copy(minWidth = 0))
+                measurable.measure(constraints = constraints.copy(minWidth = 0))
 //            measurable.measure(constraints)
-        }
+            }
 
         val size =
             placeables.fold(IntSize.Zero) { current: IntSize, placeable: Placeable ->
@@ -186,9 +190,10 @@ fun QuotedMessageWithConstraintLayout(
         ) {
             Surface(
                 color = color,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(4.dp),
+                modifier =
+                    Modifier
+                        .fillMaxHeight()
+                        .width(4.dp),
             ) {
             }
 
@@ -232,17 +237,18 @@ fun QuotedMessageWithConstraintLayout(
                 painter = painterResource(id = quotedImage),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .layoutId("image")
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)),
+                modifier =
+                    Modifier
+                        .layoutId("image")
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)),
             )
         }
     }
 }
 
-private fun decoupledConstraints(): ConstraintSet {
-    return ConstraintSet {
+private fun decoupledConstraints(): ConstraintSet =
+    ConstraintSet {
         val description = createRefFor("description")
         val image = createRefFor("image")
 
@@ -254,4 +260,3 @@ private fun decoupledConstraints(): ConstraintSet {
             end.linkTo(parent.end)
         }
     }
-}

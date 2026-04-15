@@ -22,8 +22,6 @@ enum class NavBarItem(
     ;
 
     companion object {
-        fun getNavBarItemRouteMap(): Map<NavBarItem, String> {
-            return values().associateWith { item -> item.route }
-        }
+        fun getNavBarItemRouteMap(): Map<NavBarItem, String> = values().associateWith { item -> item.route }
     }
 }

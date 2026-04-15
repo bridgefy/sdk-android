@@ -28,17 +28,19 @@ fun MessageTimeText(
     ) {
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
-                modifier = Modifier
-                    .padding(top = 1.dp, bottom = 1.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 1.dp, bottom = 1.dp),
                 text = messageTime,
                 fontSize = 12.sp,
             )
         }
 
         Icon(
-            modifier = Modifier
-                .size(16.dp, 12.dp)
-                .padding(start = 4.dp),
+            modifier =
+                Modifier
+                    .size(16.dp, 12.dp)
+                    .padding(start = 4.dp),
             imageVector = Icons.Default.Done,
             tint = Color(0xff424242),
             contentDescription = "messageStatus",

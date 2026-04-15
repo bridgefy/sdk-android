@@ -5,7 +5,10 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.text.TextLayoutResult
 import kotlin.random.Random
 
-fun measureText(chatRowData: ChatRowData, textLayoutResult: TextLayoutResult) {
+fun measureText(
+    chatRowData: ChatRowData,
+    textLayoutResult: TextLayoutResult,
+) {
     chatRowData.text = textLayoutResult.layoutInput.text.text
     chatRowData.lineCount = textLayoutResult.lineCount
     chatRowData.lastLineWidth =
@@ -48,9 +51,10 @@ internal fun calculateChatWidthAndHeight(
     }
 }
 
-fun getRandomColor() = Color(
-    red = Random.nextInt(256),
-    green = Random.nextInt(256),
-    blue = Random.nextInt(256),
-    alpha = 255,
-)
+fun getRandomColor() =
+    Color(
+        red = Random.nextInt(256),
+        green = Random.nextInt(256),
+        blue = Random.nextInt(256),
+        alpha = 255,
+    )

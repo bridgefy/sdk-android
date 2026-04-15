@@ -14,7 +14,12 @@ object DateUiUtil {
     ): String {
         localDate ?: return ""
 
-        val millis = OffsetDateTime.now().with(localDate).toInstant().toEpochMilli()
+        val millis =
+            OffsetDateTime
+                .now()
+                .with(localDate)
+                .toInstant()
+                .toEpochMilli()
         return DateUtils.formatDateTime(context, millis, dateUtilsFlags)
     }
 
@@ -25,7 +30,12 @@ object DateUiUtil {
     ): String {
         localTime ?: return ""
 
-        val millis = OffsetDateTime.now().with(localTime).toInstant().toEpochMilli()
+        val millis =
+            OffsetDateTime
+                .now()
+                .with(localTime)
+                .toInstant()
+                .toEpochMilli()
         return DateUtils.formatDateTime(context, millis, dateUtilsFlags)
     }
 }

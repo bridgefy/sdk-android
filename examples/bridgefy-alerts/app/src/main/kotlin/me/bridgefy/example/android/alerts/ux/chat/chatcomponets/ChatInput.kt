@@ -45,14 +45,18 @@ import me.bridgefy.example.android.alerts.R
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-internal fun ChatInput(modifier: Modifier = Modifier, onMessageChange: (String) -> Unit) {
+internal fun ChatInput(
+    modifier: Modifier = Modifier,
+    onMessageChange: (String) -> Unit,
+) {
     var input by remember { mutableStateOf(TextFieldValue("")) }
     val textEmpty: Boolean by derivedStateOf { input.text.isEmpty() }
 
     Row(
-        modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 6.dp)
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .padding(horizontal = 8.dp, vertical = 6.dp)
+                .fillMaxWidth(),
         verticalAlignment = Alignment.Bottom,
     ) {
         ChatTextField(
@@ -101,25 +105,29 @@ private fun ChatTextField(
         elevation = 1.dp,
     ) {
         Row(
-            modifier = Modifier
-                .padding(2.dp),
+            modifier =
+                Modifier
+                    .padding(2.dp),
             verticalAlignment = Alignment.Bottom,
         ) {
             Spacer(modifier = Modifier.width(6.dp))
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .heightIn(min = circleButtonSize),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .heightIn(min = circleButtonSize),
                     contentAlignment = Alignment.CenterStart,
                 ) {
                     BasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        textStyle = TextStyle(
-                            fontSize = 18.sp,
-                        ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                        textStyle =
+                            TextStyle(
+                                fontSize = 18.sp,
+                            ),
                         value = input,
                         onValueChange = onValueChange,
                         cursorBrush = SolidColor(Color(0xff00897B)),
@@ -156,5 +164,5 @@ private fun IndicatingIconButtonPreview() {
 @Preview(device = Devices.PIXEL_C)
 @Composable
 private fun ChatInputPreview() {
-    ChatInput() {}
+    ChatInput {}
 }

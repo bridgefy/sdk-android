@@ -55,7 +55,7 @@ The Bridgefy SDK provides a set of tools and APIs that developers can use to inc
 Bridgefy SDK is available in our public repository. To install it you must follow the instructions:
 
 ```kotlin  
-val bridgefy_release_maven_url = "http://34.82.5.94:8081/artifactory/libs-release-local"  
+val bridgefy_release_maven_url = "https://maven.bridgefy.me"  
   
 allprojects {  
     repositories {  
@@ -74,8 +74,8 @@ In the app module **build.gradle** :
  * Declare dependencies  
  * @see http://www.gradle.org/docs/current/userguide/userguide_single.html#sec:how_to_declare_your_dependencies  
  */  
-dependencies {  
-    implementation (group = "me.bridgefy", name = "android-sdk", version = "1.2.3", ext = "aar") {  
+dependencies {
+    implementation (group = "me.bridgefy", name = "android-sdk", version = "1.2.5", ext = "aar") {
         isTransitive = true  
     }  
 }  

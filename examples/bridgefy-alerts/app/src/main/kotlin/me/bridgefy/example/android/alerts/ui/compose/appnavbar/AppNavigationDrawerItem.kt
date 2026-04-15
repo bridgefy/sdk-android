@@ -24,7 +24,16 @@ fun <T : Enum<T>> AppNavigationDrawerItem(
     val selected = selectedBarItem == navBarItem
 
     NavigationDrawerItem(
-        icon = { if (selected) Icon(selectedImageVector, contentDescription = null) else Icon(unselectedImageVector, contentDescription = null) },
+        icon = {
+            if (selected) {
+                Icon(
+                    selectedImageVector,
+                    contentDescription = null,
+                )
+            } else {
+                Icon(unselectedImageVector, contentDescription = null)
+            }
+        },
         label = {
             when {
                 text != null -> Text(text, maxLines = 1)

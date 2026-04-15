@@ -30,18 +30,22 @@ fun formKeyEventHandler(
             focusManager.moveFocus(FocusDirection.Next)
             true
         }
+
         keyEvent.key == Key.DirectionDown -> {
             focusManager.moveFocus(FocusDirection.Down)
             true
         }
+
         keyEvent.key == Key.Tab && keyEvent.isShiftPressed -> {
             focusManager.moveFocus(FocusDirection.Previous)
             true
         }
+
         keyEvent.key == Key.DirectionUp -> {
             focusManager.moveFocus(FocusDirection.Up)
             true
         }
+
         keyEvent.key == Key.Enter -> {
             if (onEnter != null) {
                 onEnter()
@@ -50,6 +54,7 @@ fun formKeyEventHandler(
                 false
             }
         }
+
         else -> {
             false
         }

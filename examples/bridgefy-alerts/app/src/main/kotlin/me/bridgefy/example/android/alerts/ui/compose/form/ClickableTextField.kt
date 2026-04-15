@@ -31,8 +31,9 @@ fun ClickableTextField(
         interactionSource = source,
         supportingText = supportingText?.let { { Text(it) } },
         isError = isError,
-        modifier = modifier
-            .onPreviewKeyEvent { formKeyEventHandler(it, focusManager, onEnter = onClick) },
+        modifier =
+            modifier
+                .onPreviewKeyEvent { formKeyEventHandler(it, focusManager, onEnter = onClick) },
     )
 
     if (source.collectIsPressedAsState().value) {

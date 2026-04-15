@@ -38,28 +38,54 @@ internal class KotlinSerializationFactory(
 }
 
 internal sealed class KotlinSerializationSerializer {
-    abstract fun <T> fromResponseBody(loader: DeserializationStrategy<T>, body: ResponseBody): T
-    abstract fun <T> toRequestBody(contentType: MediaType, saver: SerializationStrategy<T>, value: T): RequestBody
+    abstract fun <T> fromResponseBody(
+        loader: DeserializationStrategy<T>,
+        body: ResponseBody,
+    ): T
 
-    class FromString(private val format: StringFormat) : KotlinSerializationSerializer() {
-        override fun <T> fromResponseBody(loader: DeserializationStrategy<T>, body: ResponseBody): T {
+    abstract fun <T> toRequestBody(
+        contentType: MediaType,
+        saver: SerializationStrategy<T>,
+        value: T,
+    ): RequestBody
+
+    class FromString(
+        private val format: StringFormat,
+    ) : KotlinSerializationSerializer() {
+        override fun <T> fromResponseBody(
+            loader: DeserializationStrategy<T>,
+            body: ResponseBody,
+        ): T {
             val string = body.string()
             return format.decodeFromString(loader, string)
         }
 
-        override fun <T> toRequestBody(contentType: MediaType, saver: SerializationStrategy<T>, value: T): RequestBody {
+        override fun <T> toRequestBody(
+            contentType: MediaType,
+            saver: SerializationStrategy<T>,
+            value: T,
+        ): RequestBody {
             val string = format.encodeToString(saver, value)
             return string.toRequestBody(contentType)
         }
     }
 
-    class FromBytes(private val format: BinaryFormat) : KotlinSerializationSerializer() {
-        override fun <T> fromResponseBody(loader: DeserializationStrategy<T>, body: ResponseBody): T {
+    class FromBytes(
+        private val format: BinaryFormat,
+    ) : KotlinSerializationSerializer() {
+        override fun <T> fromResponseBody(
+            loader: DeserializationStrategy<T>,
+            body: ResponseBody,
+        ): T {
             val bytes = body.bytes()
             return format.decodeFromByteArray(loader, bytes)
         }
 
-        override fun <T> toRequestBody(contentType: MediaType, saver: SerializationStrategy<T>, value: T): RequestBody {
+        override fun <T> toRequestBody(
+            contentType: MediaType,
+            saver: SerializationStrategy<T>,
+            value: T,
+        ): RequestBody {
             val content = format.encodeToByteArray(saver, value)
             return content.toRequestBody(contentType, 0, content.size)
         }
@@ -88,9 +114,8 @@ internal class SerializationStrategyConverter<T>(
  * that it can handle all types. If you are mixing this with something else, you must add this
  * instance last to allow the other converters a chance to see their types.
  */
-fun StringFormat.asConverterFactory(contentType: MediaType): Converter.Factory {
-    return KotlinSerializationFactory(contentType, KotlinSerializationSerializer.FromString(this))
-}
+fun StringFormat.asConverterFactory(contentType: MediaType): Converter.Factory =
+    KotlinSerializationFactory(contentType, KotlinSerializationSerializer.FromString(this))
 
 /**
  * Return a [Converter.Factory] which uses Kotlin serialization for byte-based payloads.
@@ -99,6 +124,5 @@ fun StringFormat.asConverterFactory(contentType: MediaType): Converter.Factory {
  * that it can handle all types. If you are mixing this with something else, you must add this
  * instance last to allow the other converters a chance to see their types.
  */
-fun BinaryFormat.asConverterFactory(contentType: MediaType): Converter.Factory {
-    return KotlinSerializationFactory(contentType, KotlinSerializationSerializer.FromBytes(this))
-}
+fun BinaryFormat.asConverterFactory(contentType: MediaType): Converter.Factory =
+    KotlinSerializationFactory(contentType, KotlinSerializationSerializer.FromBytes(this))

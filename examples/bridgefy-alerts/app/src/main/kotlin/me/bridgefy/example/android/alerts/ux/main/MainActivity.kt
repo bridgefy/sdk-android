@@ -28,21 +28,26 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     private val viewModel: MainViewModel by viewModels()
     private var bridgefyService: BridgefyService? = null
     private var mBound = false
 
-    private val connection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
-            val binder: BridgefyService.LocalBinder = service as BridgefyService.LocalBinder
-            bridgefyService = binder.getService()
-            mBound = true
-            bringServiceToForeground()
-        }
+    private val connection: ServiceConnection =
+        object : ServiceConnection {
+            override fun onServiceConnected(
+                className: ComponentName?,
+                service: IBinder?,
+            ) {
+                val binder: BridgefyService.LocalBinder = service as BridgefyService.LocalBinder
+                bridgefyService = binder.getService()
+                mBound = true
+                bringServiceToForeground()
+            }
 
-        override fun onServiceDisconnected(p0: ComponentName?) { mBound = false }
-    }
+            override fun onServiceDisconnected(p0: ComponentName?) {
+                mBound = false
+            }
+        }
 
     override fun onPause() {
         super.onPause()
@@ -80,7 +85,7 @@ class MainActivity : ComponentActivity() {
         bridgefyService?.let {
             if (!it.isForegroundService) {
                 val notificationManager = NotificationManagerCompat.from(this)
-                if(notificationManager.areNotificationsEnabled()) {
+                if (notificationManager.areNotificationsEnabled()) {
                     val intent = Intent(this, BridgefyService::class.java)
                     intent.action = BridgefyService.FOREGROUND_SERVICE
                     it.doForegroundThings()
@@ -101,17 +106,19 @@ class MainActivity : ComponentActivity() {
             val uiState = viewModel.uiState
             val theme by uiState.selectedAppThemeFlow.collectAsStateWithLifecycle()
 
-            val darkTheme = when (theme?.displayThemeType) {
-                DisplayThemeType.SYSTEM_DEFAULT -> isSystemInDarkTheme()
-                DisplayThemeType.LIGHT -> false
-                DisplayThemeType.DARK -> true
-                null -> isSystemInDarkTheme()
-            }
+            val darkTheme =
+                when (theme?.displayThemeType) {
+                    DisplayThemeType.SYSTEM_DEFAULT -> isSystemInDarkTheme()
+                    DisplayThemeType.LIGHT -> false
+                    DisplayThemeType.DARK -> true
+                    null -> isSystemInDarkTheme()
+                }
 
-            val dynamicTheme = when (theme?.dynamicTheme) {
-                true -> true
-                else -> false
-            }
+            val dynamicTheme =
+                when (theme?.dynamicTheme) {
+                    true -> true
+                    else -> false
+                }
 
             AppTheme(darkTheme, dynamicTheme) {
                 MainScreen()

@@ -24,12 +24,16 @@ abstract class NavComposeRoute {
     // fun createRoute(): String = routeDefinition
 
     abstract fun getArguments(): List<NamedNavArgument>
+
     open fun getDeepLinks(): List<NavDeepLink> = emptyList()
 
     /**
      * Used when creating navigation graph
      */
-    fun addNavigationRoute(navGraphBuilder: NavGraphBuilder, content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit) {
+    fun addNavigationRoute(
+        navGraphBuilder: NavGraphBuilder,
+        content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
+    ) {
         navGraphBuilder.composable(
             route = routeDefinition,
             arguments = getArguments(),
@@ -43,7 +47,9 @@ abstract class NavComposeRoute {
  * Simple Route that requires no arguments
  */
 @Suppress("UnnecessaryAbstractClass") // this is an edge case... allow
-abstract class SimpleNavComposeRoute(override val routeDefinition: String) : NavComposeRoute() {
+abstract class SimpleNavComposeRoute(
+    override val routeDefinition: String,
+) : NavComposeRoute() {
     /**
      * Route used when navigating
      */

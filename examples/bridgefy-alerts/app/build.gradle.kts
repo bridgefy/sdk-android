@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 import java.util.Date
 
 plugins {
@@ -19,6 +17,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.licenseManager)
     id("com.spotify.ruler")
+    alias(libs.plugins.kotlin.compose)
 }
 
 val Bridgefy_API_Key = "REPLACE_WITH_YOUR_OWN_API_KEY"
@@ -136,11 +135,10 @@ android {
 }
 
 dependencies {
-
     implementation(
         group = "me.bridgefy",
         name = "android-sdk",
-        version = "1.1.4",
+        version = "1.2.5",
         ext = "aar",
     ) {
         isTransitive = true

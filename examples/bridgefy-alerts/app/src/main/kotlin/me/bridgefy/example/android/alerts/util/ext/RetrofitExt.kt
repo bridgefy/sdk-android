@@ -14,7 +14,10 @@ import java.io.IOException
  * @param outputFile target file.  If the file already exists, then remove the file
  * @return true if the file streamed successfully to file and the new file exists
  */
-fun Response<ResponseBody>.saveBodyToFile(fileSystem: FileSystem, outputFile: Path): Boolean {
+fun Response<ResponseBody>.saveBodyToFile(
+    fileSystem: FileSystem,
+    outputFile: Path,
+): Boolean {
     Timber.d("Saving response [${raw().request.url}] to file [$outputFile]...")
     var success = false
     try {
@@ -50,7 +53,10 @@ fun Response<ResponseBody>.saveBodyToFile(fileSystem: FileSystem, outputFile: Pa
  * @param outputFile target file.  If the file already exists, then remove the file
  * @return true if the file streamed successfully to file and the new file exists
  */
-fun ResponseBody.saveToFile(fileSystem: FileSystem, outputFile: Path): Boolean {
+fun ResponseBody.saveToFile(
+    fileSystem: FileSystem,
+    outputFile: Path,
+): Boolean {
     // write stream to file
     byteStream().use { input ->
         fileSystem.copyInputStreamToFile(input, outputFile)

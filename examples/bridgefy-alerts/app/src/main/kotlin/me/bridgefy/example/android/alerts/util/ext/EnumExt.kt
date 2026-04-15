@@ -10,7 +10,10 @@ inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String?): T? {
     }
 }
 
-inline fun <reified T : Enum<T>> enumValueOfOrDefault(name: String?, default: T): T {
+inline fun <reified T : Enum<T>> enumValueOfOrDefault(
+    name: String?,
+    default: T,
+): T {
     name ?: return default
 
     return try {

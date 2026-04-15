@@ -12,12 +12,18 @@ import javax.inject.Singleton
 
 @Singleton
 class SettingsRepository
-@Inject constructor(
-    private val devicePreferenceDataSource: DevicePreferenceDataSource,
-    @ApplicationScope private val appScope: CoroutineScope,
-) {
-    val themeFlow: Flow<DisplayThemeType> get() = devicePreferenceDataSource.themePref.flow
-    val dynamicThemeFlow: Flow<Boolean> get() = devicePreferenceDataSource.dynamicThemePref.flow
-    suspend fun getLastInstalledVersionCode(): Int = devicePreferenceDataSource.lastInstalledVersionCodePref.flow.first()
-    fun setLastInstalledVersionCodeAsync(version: Int) = appScope.launch { devicePreferenceDataSource.lastInstalledVersionCodePref.setValue(version) }
-}
+    @Inject
+    constructor(
+        private val devicePreferenceDataSource: DevicePreferenceDataSource,
+        @ApplicationScope private val appScope: CoroutineScope,
+    ) {
+        val themeFlow: Flow<DisplayThemeType> get() = devicePreferenceDataSource.themePref.flow
+        val dynamicThemeFlow: Flow<Boolean> get() = devicePreferenceDataSource.dynamicThemePref.flow
+
+        suspend fun getLastInstalledVersionCode(): Int = devicePreferenceDataSource.lastInstalledVersionCodePref.flow.first()
+
+        fun setLastInstalledVersionCodeAsync(version: Int) =
+            appScope.launch {
+                devicePreferenceDataSource.lastInstalledVersionCodePref.setValue(version)
+            }
+    }

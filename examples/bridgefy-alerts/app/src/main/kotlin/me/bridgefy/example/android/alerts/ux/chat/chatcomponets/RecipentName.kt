@@ -23,11 +23,11 @@ fun RecipientName(
     onClick: ((String) -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier
-            .clickable {
-                onClick?.invoke(name)
-            }
-            .padding(start = 4.dp, top = 2.dp, end = 8.dp),
+        modifier =
+            modifier
+                .clickable {
+                    onClick?.invoke(name)
+                }.padding(start = 4.dp, top = 2.dp, end = 8.dp),
         verticalAlignment = Alignment.Top,
     ) {
         Text(

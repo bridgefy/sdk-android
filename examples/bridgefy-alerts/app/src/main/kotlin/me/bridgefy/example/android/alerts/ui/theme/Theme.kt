@@ -109,8 +109,8 @@ class AppColors(
     var scrim by mutableStateOf(scrim, structuralEqualityPolicy())
         internal set
 
-    fun toMaterialColors(): ColorScheme {
-        return ColorScheme(
+    fun toMaterialColors(): ColorScheme =
+        ColorScheme(
             primary = primary,
             onPrimary = onPrimary,
             primaryContainer = primaryContainer,
@@ -141,7 +141,6 @@ class AppColors(
             outlineVariant = outlineVariant,
             scrim = scrim,
         )
-    }
 
     fun updateColorsFrom(colors: AppColors) {
         primary = colors.primary
@@ -176,9 +175,10 @@ class AppColors(
     }
 }
 
-private val LocalAppColors = staticCompositionLocalOf<AppColors> {
-    error("No AppColorPalette provided")
-}
+private val LocalAppColors =
+    staticCompositionLocalOf<AppColors> {
+        error("No AppColorPalette provided")
+    }
 
 object AppTheme {
     val colors: AppColors
@@ -210,10 +210,22 @@ fun AppTheme(
 ) {
     HandleSystemBarColors(darkTheme)
 
-    val colors: AppColors = when {
-        dynamicTheme && Build.VERSION.SDK_INT >= 31 -> if (darkTheme) dynamicDarkColorScheme(LocalContext.current).toAppColors() else dynamicLightColorScheme(LocalContext.current).toAppColors()
-        else -> if (darkTheme) AppPalette.darkColors() else AppPalette.lightColors()
-    }
+    val colors: AppColors =
+        when {
+            dynamicTheme && Build.VERSION.SDK_INT >= 31 -> {
+                if (darkTheme) {
+                    dynamicDarkColorScheme(
+                        LocalContext.current,
+                    ).toAppColors()
+                } else {
+                    dynamicLightColorScheme(LocalContext.current).toAppColors()
+                }
+            }
+
+            else -> {
+                if (darkTheme) AppPalette.darkColors() else AppPalette.lightColors()
+            }
+        }
 
     val colorPalette = remember { colors }
     colorPalette.updateColorsFrom(colors)
@@ -228,8 +240,8 @@ fun AppTheme(
     }
 }
 
-private fun ColorScheme.toAppColors(): AppColors {
-    return AppColors(
+private fun ColorScheme.toAppColors(): AppColors =
+    AppColors(
         primary = this.primary,
         onPrimary = this.onPrimary,
         primaryContainer = this.primaryContainer,
@@ -260,4 +272,3 @@ private fun ColorScheme.toAppColors(): AppColors {
         outlineVariant = this.outlineVariant,
         scrim = this.scrim,
     )
-}

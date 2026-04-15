@@ -24,9 +24,10 @@ fun TextHeader(
         Column {
             Text(
                 text = text,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
                 color = color,
                 style = style,
             )

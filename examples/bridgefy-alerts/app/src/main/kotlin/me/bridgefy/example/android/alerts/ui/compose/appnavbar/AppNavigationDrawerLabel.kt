@@ -8,9 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AppNavigationDrawerLabel(
-    text: String,
-) {
+fun AppNavigationDrawerLabel(text: String) {
     Text(
         text = text,
         style = MaterialTheme.typography.titleSmall,

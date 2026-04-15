@@ -12,21 +12,22 @@ import javax.inject.Singleton
 
 @Singleton
 open class MainDatabaseWrapper
-@Inject constructor(
-    @ApplicationContext context: Context,
-) : CloseableDatabaseWrapper<MainDatabase>(context) {
+    @Inject
+    constructor(
+        @ApplicationContext context: Context,
+    ) : CloseableDatabaseWrapper<MainDatabase>(context) {
+        override fun createDatabase(): MainDatabase {
+            val openHelperFactory = AndroidSQLiteOpenHelperFactory()
 
-    override fun createDatabase(): MainDatabase {
-        val openHelperFactory = AndroidSQLiteOpenHelperFactory()
-
-        return Room.databaseBuilder(context, MainDatabase::class.java, MainDatabase.DATABASE_NAME)
-            .openHelperFactory(openHelperFactory)
-            .addMigrations(
-                MainMigration2(),
-                MainMigration3(),
-            )
-            // Debug -- Show SQL statements
-            // .setLoggingQueryCallback(MainDatabase.DATABASE_NAME)
-            .build()
+            return Room
+                .databaseBuilder(context, MainDatabase::class.java, MainDatabase.DATABASE_NAME)
+                .openHelperFactory(openHelperFactory)
+                .addMigrations(
+                    MainMigration2(),
+                    MainMigration3(),
+                )
+                // Debug -- Show SQL statements
+                // .setLoggingQueryCallback(MainDatabase.DATABASE_NAME)
+                .build()
+        }
     }
-}

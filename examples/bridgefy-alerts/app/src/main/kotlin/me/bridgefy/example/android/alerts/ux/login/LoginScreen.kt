@@ -68,61 +68,69 @@ fun LoginScreen(
                 val (image, userForm) = createRefs()
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .height(280.dp)
-                        .constrainAs(image) {
-                            top.linkTo(userForm.top)
-                            bottom.linkTo(userForm.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
+                    modifier =
+                        Modifier
+                            .height(280.dp)
+                            .constrainAs(image) {
+                                top.linkTo(userForm.top)
+                                bottom.linkTo(userForm.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            },
                 ) {
                     HeaderView()
                 }
                 Card(
-                    shape = RoundedCornerShape(
-                        topStart = 40.dp,
-                        topEnd = 40.dp,
-                    ),
+                    shape =
+                        RoundedCornerShape(
+                            topStart = 40.dp,
+                            topEnd = 40.dp,
+                        ),
                     backgroundColor = Color.White,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 100.dp)
-                        .constrainAs(userForm) {
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(top = 100.dp)
+                            .constrainAs(userForm) {
+                                bottom.linkTo(parent.bottom)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            },
                 ) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(30.dp),
                     ) {
                         val bridgefyAlertsText = "Bridgefy Alerts System"
                         val bridgefyText = "Bridgefy"
-                        val welcomeAnnotatedString = buildAnnotatedString {
-                            append(bridgefyAlertsText)
-                            addStyle(
-                                style = SpanStyle(
-                                    color = Color.Black,
-                                ),
-                                start = 0,
-                                end = bridgefyAlertsText.length,
-                            )
-                            addStyle(
-                                style = SpanStyle(
-                                    color = Color.Red,
-                                ),
-                                start = 0,
-                                end = bridgefyText.length,
-                            )
-                        }
+                        val welcomeAnnotatedString =
+                            buildAnnotatedString {
+                                append(bridgefyAlertsText)
+                                addStyle(
+                                    style =
+                                        SpanStyle(
+                                            color = Color.Black,
+                                        ),
+                                    start = 0,
+                                    end = bridgefyAlertsText.length,
+                                )
+                                addStyle(
+                                    style =
+                                        SpanStyle(
+                                            color = Color.Red,
+                                        ),
+                                    start = 0,
+                                    end = bridgefyText.length,
+                                )
+                            }
 
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp, bottom = 20.dp),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp, bottom = 20.dp),
                             text = welcomeAnnotatedString,
                             textAlign = TextAlign.Center,
                             fontSize = 22.sp,
@@ -155,13 +163,15 @@ fun LoginScreen(
                                     }
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = colorResource(id = R.color.bridgefy_color),
-                            ),
-                            modifier = Modifier
-                                .padding(top = 30.dp, bottom = 34.dp)
-                                .align(Alignment.CenterHorizontally)
-                                .fillMaxWidth(),
+                            colors =
+                                ButtonDefaults.buttonColors(
+                                    backgroundColor = colorResource(id = R.color.bridgefy_color),
+                                ),
+                            modifier =
+                                Modifier
+                                    .padding(top = 30.dp, bottom = 34.dp)
+                                    .align(Alignment.CenterHorizontally)
+                                    .fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
                         ) {
                             Text(
@@ -177,7 +187,10 @@ fun LoginScreen(
         }
     }
 }
-class UserNameFieldState() { var text: String by mutableStateOf("") }
+
+class UserNameFieldState {
+    var text: String by mutableStateOf("")
+}
 
 @Composable
 fun CustomStyleTextField(
@@ -188,9 +201,10 @@ fun CustomStyleTextField(
     visualTransformation: VisualTransformation,
 ) {
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Color.White),
         value = usernameState.text,
         onValueChange = {
             usernameState.text = it
@@ -204,9 +218,10 @@ fun CustomStyleTextField(
                 verticalAlignment = Alignment.CenterVertically,
                 content = {
                     Icon(
-                        modifier = Modifier
-                            .padding(start = 10.dp, end = 10.dp)
-                            .size(18.dp),
+                        modifier =
+                            Modifier
+                                .padding(start = 10.dp, end = 10.dp)
+                                .size(18.dp),
                         imageVector = icon,
                         tint = Color.Black,
                         contentDescription = "user_name",
@@ -224,12 +239,13 @@ fun CustomStyleTextField(
                 },
             )
         },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.Transparent,
-            focusedLabelColor = Color.White,
-            trailingIconColor = Color.White,
-        ),
+        colors =
+            TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.Transparent,
+                focusedLabelColor = Color.White,
+                trailingIconColor = Color.White,
+            ),
         shape = RoundedCornerShape(10.dp),
         textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
         visualTransformation = visualTransformation,
@@ -240,11 +256,12 @@ fun CustomStyleTextField(
 private fun HeaderView() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(
-            start = 40.dp,
-            end = 40.dp,
-            bottom = 40.dp,
-        ),
+        modifier =
+            Modifier.padding(
+                start = 40.dp,
+                end = 40.dp,
+                bottom = 40.dp,
+            ),
     ) {
         Image(
             painter = painterResource(id = R.drawable.bridgefy_complete_logo),

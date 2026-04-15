@@ -23,29 +23,58 @@ fun HandleSystemBarColors(darkTheme: Boolean) {
     val activity = view.context.getActivity() ?: return
 
     if (Build.VERSION.SDK_INT in 23..26) {
-        activity.window.statusBarColor = if (darkTheme) {
-            activity.applicationContext.resources.getColor(
-                R.color.bridgefy_light_bar_color,
-            )
-        } else {
-            activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
-        }
+        activity.window.statusBarColor =
+            if (darkTheme) {
+                activity.applicationContext.resources.getColor(
+                    R.color.bridgefy_light_bar_color,
+                )
+            } else {
+                activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+            }
         WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = !darkTheme
-        activity.window.navigationBarColor = if (darkTheme) activity.applicationContext.resources.getColor(R.color.bridgefy_light_bar_color) else activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+        activity.window.navigationBarColor =
+            if (darkTheme) {
+                activity.applicationContext.resources.getColor(
+                    R.color.bridgefy_light_bar_color,
+                )
+            } else {
+                activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+            }
     } else {
-        activity.window.statusBarColor = if (darkTheme) activity.applicationContext.resources.getColor(R.color.bridgefy_light_bar_color) else activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+        activity.window.statusBarColor =
+            if (darkTheme) {
+                activity.applicationContext.resources.getColor(
+                    R.color.bridgefy_light_bar_color,
+                )
+            } else {
+                activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+            }
         WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = !darkTheme
 
-        activity.window.navigationBarColor = if (darkTheme) activity.applicationContext.resources.getColor(R.color.bridgefy_light_bar_color) else activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+        activity.window.navigationBarColor =
+            if (darkTheme) {
+                activity.applicationContext.resources.getColor(
+                    R.color.bridgefy_light_bar_color,
+                )
+            } else {
+                activity.applicationContext.resources.getColor(R.color.bridgefy_dark_bar_color)
+            }
         WindowCompat.getInsetsController(activity.window, view).isAppearanceLightNavigationBars = !darkTheme
     }
 }
 
-private fun Context.getActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.getActivity()
-    else -> {
-        Timber.e("No Activity Found")
-        null
+private fun Context.getActivity(): Activity? =
+    when (this) {
+        is Activity -> {
+            this
+        }
+
+        is ContextWrapper -> {
+            baseContext.getActivity()
+        }
+
+        else -> {
+            Timber.e("No Activity Found")
+            null
+        }
     }
-}

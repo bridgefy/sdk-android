@@ -22,14 +22,42 @@ import kotlinx.coroutines.flow.asStateFlow
 interface ViewModelNav {
     val navigatorFlow: StateFlow<ViewModelNavigator?>
 
-    fun navigate(route: String, popBackStack: Boolean = false)
+    fun navigate(
+        route: String,
+        popBackStack: Boolean = false,
+    )
+
     fun navigate(routes: List<String>)
-    fun navigate(route: String, navOptions: NavOptions)
-    fun navigate(route: String, optionsBuilder: NavOptionsBuilder.() -> Unit)
-    fun navigate(intent: Intent, options: Bundle? = null, popBackStack: Boolean = false)
-    fun popBackStack(popToRouteDefinition: String? = null, inclusive: Boolean = false)
-    fun popBackStackWithResult(popToRouteDefinition: String? = null, inclusive: Boolean = false, resultValues: List<PopResultKeyValue>)
+
+    fun navigate(
+        route: String,
+        navOptions: NavOptions,
+    )
+
+    fun navigate(
+        route: String,
+        optionsBuilder: NavOptionsBuilder.() -> Unit,
+    )
+
+    fun navigate(
+        intent: Intent,
+        options: Bundle? = null,
+        popBackStack: Boolean = false,
+    )
+
+    fun popBackStack(
+        popToRouteDefinition: String? = null,
+        inclusive: Boolean = false,
+    )
+
+    fun popBackStackWithResult(
+        popToRouteDefinition: String? = null,
+        inclusive: Boolean = false,
+        resultValues: List<PopResultKeyValue>,
+    )
+
     fun navigate(viewModelNavigator: ViewModelNavigator)
+
     fun resetNavigate(viewModelNavigator: ViewModelNavigator)
 }
 
@@ -37,7 +65,10 @@ class ViewModelNavImpl : ViewModelNav {
     private val _navigatorFlow = MutableStateFlow<ViewModelNavigator?>(null)
     override val navigatorFlow: StateFlow<ViewModelNavigator?> = _navigatorFlow.asStateFlow()
 
-    override fun navigate(route: String, popBackStack: Boolean) {
+    override fun navigate(
+        route: String,
+        popBackStack: Boolean,
+    ) {
         _navigatorFlow.compareAndSet(
             null,
             if (popBackStack) {
@@ -54,21 +85,31 @@ class ViewModelNavImpl : ViewModelNav {
         _navigatorFlow.compareAndSet(null, ViewModelNavigator.NavigateMultiple(routes))
     }
 
-    override fun navigate(route: String, navOptions: NavOptions) {
+    override fun navigate(
+        route: String,
+        navOptions: NavOptions,
+    ) {
         _navigatorFlow.compareAndSet(
             null,
             ViewModelNavigator.NavigateWithOptions(route, navOptions),
         )
     }
 
-    override fun navigate(route: String, optionsBuilder: NavOptionsBuilder.() -> Unit) {
+    override fun navigate(
+        route: String,
+        optionsBuilder: NavOptionsBuilder.() -> Unit,
+    ) {
         _navigatorFlow.compareAndSet(
             null,
             ViewModelNavigator.NavigateWithOptions(route, navOptions(optionsBuilder)),
         )
     }
 
-    override fun navigate(intent: Intent, options: Bundle?, popBackStack: Boolean) {
+    override fun navigate(
+        intent: Intent,
+        options: Bundle?,
+        popBackStack: Boolean,
+    ) {
         _navigatorFlow.compareAndSet(
             null,
             if (popBackStack) {
@@ -82,11 +123,18 @@ class ViewModelNavImpl : ViewModelNav {
         )
     }
 
-    override fun popBackStack(popToRouteDefinition: String?, inclusive: Boolean) {
+    override fun popBackStack(
+        popToRouteDefinition: String?,
+        inclusive: Boolean,
+    ) {
         _navigatorFlow.compareAndSet(null, ViewModelNavigator.Pop(popToRouteDefinition, inclusive))
     }
 
-    override fun popBackStackWithResult(popToRouteDefinition: String?, inclusive: Boolean, resultValues: List<PopResultKeyValue>) {
+    override fun popBackStackWithResult(
+        popToRouteDefinition: String?,
+        inclusive: Boolean,
+        resultValues: List<PopResultKeyValue>,
+    ) {
         _navigatorFlow.compareAndSet(
             null,
             ViewModelNavigator.PopWithResult(popToRouteDefinition, inclusive, resultValues),
@@ -106,10 +154,20 @@ sealed class ViewModelNavigator {
     /**
      * @return true if navController.popBackStack() called AND was successful
      */
-    abstract fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean
+    abstract fun navigate(
+        context: Context,
+        navController: NavController,
+        viewModelNav: ViewModelNav,
+    ): Boolean
 
-    class Navigate(private val route: String) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
+    class Navigate(
+        private val route: String,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
             navController.navigate(route)
 
             viewModelNav.resetNavigate(this)
@@ -117,8 +175,14 @@ sealed class ViewModelNavigator {
         }
     }
 
-    class NavigateMultiple(private val routes: List<String>) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
+    class NavigateMultiple(
+        private val routes: List<String>,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
             routes.forEach { route ->
                 navController.navigate(route)
             }
@@ -128,8 +192,15 @@ sealed class ViewModelNavigator {
         }
     }
 
-    class NavigateWithOptions(private val route: String, private val navOptions: NavOptions) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
+    class NavigateWithOptions(
+        private val route: String,
+        private val navOptions: NavOptions,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
             navController.navigate(route, navOptions)
 
             viewModelNav.resetNavigate(this)
@@ -137,16 +208,29 @@ sealed class ViewModelNavigator {
         }
     }
 
-    class NavigateIntent(val intent: Intent, val options: Bundle? = null) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
+    class NavigateIntent(
+        val intent: Intent,
+        val options: Bundle? = null,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
             context.startActivity(intent, options)
             viewModelNav.resetNavigate(this)
             return false
         }
     }
 
-    class PopAndNavigate(private val route: String) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
+    class PopAndNavigate(
+        private val route: String,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
             val stackPopped = navController.popBackStack()
             navController.navigate(route)
 
@@ -155,8 +239,15 @@ sealed class ViewModelNavigator {
         }
     }
 
-    class PopAndNavigateIntent(val intent: Intent, val options: Bundle? = null) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
+    class PopAndNavigateIntent(
+        val intent: Intent,
+        val options: Bundle? = null,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
             val stackPopped = navController.popBackStack()
             context.startActivity(intent, options)
             viewModelNav.resetNavigate(this)
@@ -164,32 +255,50 @@ sealed class ViewModelNavigator {
         }
     }
 
-    class Pop(private val popToRouteDefinition: String? = null, private val inclusive: Boolean = false) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
-            val stackPopped = if (popToRouteDefinition == null) {
-                navController.popBackStack()
-            } else {
-                navController.popBackStack(popToRouteDefinition, inclusive = inclusive)
-            }
+    class Pop(
+        private val popToRouteDefinition: String? = null,
+        private val inclusive: Boolean = false,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
+            val stackPopped =
+                if (popToRouteDefinition == null) {
+                    navController.popBackStack()
+                } else {
+                    navController.popBackStack(popToRouteDefinition, inclusive = inclusive)
+                }
 
             viewModelNav.resetNavigate(this)
             return stackPopped
         }
     }
 
-    class PopWithResult(private val popToRouteDefinition: String? = null, private val inclusive: Boolean = false, private val resultValues: List<PopResultKeyValue>) : ViewModelNavigator() {
-        override fun navigate(context: Context, navController: NavController, viewModelNav: ViewModelNav): Boolean {
-            val destinationNavBackStackEntry = if (popToRouteDefinition != null) {
-                navController.getBackStackEntry(popToRouteDefinition)
-            } else {
-                navController.previousBackStackEntry
-            }
+    class PopWithResult(
+        private val popToRouteDefinition: String? = null,
+        private val inclusive: Boolean = false,
+        private val resultValues: List<PopResultKeyValue>,
+    ) : ViewModelNavigator() {
+        override fun navigate(
+            context: Context,
+            navController: NavController,
+            viewModelNav: ViewModelNav,
+        ): Boolean {
+            val destinationNavBackStackEntry =
+                if (popToRouteDefinition != null) {
+                    navController.getBackStackEntry(popToRouteDefinition)
+                } else {
+                    navController.previousBackStackEntry
+                }
             resultValues.forEach { destinationNavBackStackEntry?.savedStateHandle?.set(it.key, it.value) }
-            val stackPopped = if (popToRouteDefinition == null) {
-                navController.popBackStack()
-            } else {
-                navController.popBackStack(popToRouteDefinition, inclusive = inclusive)
-            }
+            val stackPopped =
+                if (popToRouteDefinition == null) {
+                    navController.popBackStack()
+                } else {
+                    navController.popBackStack(popToRouteDefinition, inclusive = inclusive)
+                }
 
             viewModelNav.resetNavigate(this)
             return stackPopped
@@ -197,7 +306,10 @@ sealed class ViewModelNavigator {
     }
 }
 
-data class PopResultKeyValue(val key: String, val value: Any)
+data class PopResultKeyValue(
+    val key: String,
+    val value: Any,
+)
 
 @Composable
 fun HandleNavigation(

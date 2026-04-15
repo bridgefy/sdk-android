@@ -40,7 +40,6 @@ annotation class ApplicationScope
 @Module
 @InstallIn(SingletonComponent::class)
 object CoroutinesModule {
-
     @Provides
     @IoDispatcher
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO

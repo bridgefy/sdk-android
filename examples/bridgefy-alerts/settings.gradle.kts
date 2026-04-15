@@ -4,8 +4,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-
-//        maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
     plugins {
         kotlin("jvm")
@@ -20,11 +18,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url = java.net.URI("http://34.82.5.94:8081/artifactory/libs-release-local")
-            isAllowInsecureProtocol = true
+            url = java.net.URI("https://maven.bridgefy.me")
         }
-
-//        maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }
 

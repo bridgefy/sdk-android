@@ -6,14 +6,21 @@ import timber.log.Timber
 
 @SuppressLint("LogNotTimber")
 class ReleaseTree : Timber.Tree() {
-    override fun isLoggable(tag: String?, priority: Int): Boolean {
-        return when (priority) {
+    override fun isLoggable(
+        tag: String?,
+        priority: Int,
+    ): Boolean =
+        when (priority) {
             Log.VERBOSE, Log.DEBUG, Log.INFO -> false
             else -> true
         }
-    }
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(
+        priority: Int,
+        tag: String?,
+        message: String,
+        t: Throwable?,
+    ) {
         if (message.length < MAX_LOG_LENGTH) {
             if (priority == Log.ERROR && t != null) {
                 // Crashlytics.log(t)

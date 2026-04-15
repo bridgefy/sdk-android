@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import me.bridgefy.example.android.alerts.ux.home.HomeScreenRoute
 import me.bridgefy.example.android.alerts.ux.onboarding.OnBoardingRoute
-import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(

@@ -9,9 +9,7 @@ import me.bridgefy.example.android.alerts.util.ext.requireActivity
 import me.bridgefy.example.android.alerts.ux.NavGraph
 
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel(LocalContext.current.requireActivity()),
-) {
+fun MainScreen(viewModel: MainViewModel = hiltViewModel(LocalContext.current.requireActivity())) {
     val navController = rememberNavController()
 
     NavGraph(navController)

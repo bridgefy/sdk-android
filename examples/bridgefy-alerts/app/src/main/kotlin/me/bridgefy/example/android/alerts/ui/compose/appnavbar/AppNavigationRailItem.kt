@@ -22,7 +22,16 @@ fun <T : Enum<T>> ColumnScope.AppNavigationRailItem(
     val selected = selectedBarItem == navBarItem
 
     NavigationRailItem(
-        icon = { if (selected) Icon(selectedImageVector, contentDescription = null) else Icon(unselectedImageVector, contentDescription = null) },
+        icon = {
+            if (selected) {
+                Icon(
+                    selectedImageVector,
+                    contentDescription = null,
+                )
+            } else {
+                Icon(unselectedImageVector, contentDescription = null)
+            }
+        },
         label = {
             when {
                 text != null -> Text(text, maxLines = 1)

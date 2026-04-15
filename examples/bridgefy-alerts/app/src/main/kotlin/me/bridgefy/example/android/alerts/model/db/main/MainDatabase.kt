@@ -18,8 +18,8 @@ import me.bridgefy.example.android.alerts.model.db.main.user.UserEntity
 )
 @TypeConverters(DateTimeTextConverter::class)
 abstract class MainDatabase : RoomDatabase() {
-
     abstract fun chatDao(): MessagesDao
+
     abstract fun userDao(): UserDao
 
     companion object {

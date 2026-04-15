@@ -1,6 +1,7 @@
 package me.bridgefy.example.android.alerts.ui.compose.menu
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -46,13 +47,14 @@ fun OverflowMenu(
             Icon(
                 imageVector = iconImageVector,
                 contentDescription = stringResource(R.string.more_options),
-                modifier = modifier
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false, radius = touchRadius),
-                        role = Role.Button,
-                        onClick = { expanded.value = true },
-                    ),
+                modifier =
+                    modifier
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            role = Role.Button,
+                            onClick = { expanded.value = true },
+                        ),
             )
         }
         DropdownMenu(
@@ -65,7 +67,10 @@ fun OverflowMenu(
 }
 
 @Composable
-fun OverflowMenuItemsContent(menuItems: List<OverflowMenuItem>, expanded: MutableState<Boolean>) {
+fun OverflowMenuItemsContent(
+    menuItems: List<OverflowMenuItem>,
+    expanded: MutableState<Boolean>,
+) {
     // determine if there are any icons in the list
     val menuItemsWithLeadingIconCount = menuItems.count { it is OverflowMenuItem.MenuItem && it.hasLeadingIcon() }
     val menuItemsWithTrailingIconCount = menuItems.count { it is OverflowMenuItem.MenuItem && it.hasTrailingIcon() }
@@ -73,8 +78,22 @@ fun OverflowMenuItemsContent(menuItems: List<OverflowMenuItem>, expanded: Mutabl
     menuItems.forEach { menuItem ->
         // if there are icons in the list, make sure text without icons are all indented properly
         // 36.dp == 24.dp (icon size) + 12.dp (gap)
-        val startPadding = if (menuItemsWithLeadingIconCount > 0 && menuItem is OverflowMenuItem.MenuItem && !menuItem.hasLeadingIcon()) (36.dp) else 0.dp
-        val endPadding = if (menuItemsWithTrailingIconCount > 0 && menuItem is OverflowMenuItem.MenuItem && !menuItem.hasTrailingIcon()) (36.dp) else 0.dp
+        val startPadding =
+            if (menuItemsWithLeadingIconCount > 0 && menuItem is OverflowMenuItem.MenuItem &&
+                !menuItem.hasLeadingIcon()
+            ) {
+                (36.dp)
+            } else {
+                0.dp
+            }
+        val endPadding =
+            if (menuItemsWithTrailingIconCount > 0 && menuItem is OverflowMenuItem.MenuItem &&
+                !menuItem.hasTrailingIcon()
+            ) {
+                (36.dp)
+            } else {
+                0.dp
+            }
 
         when (menuItem) {
             is OverflowMenuItem.MenuItem -> {
@@ -87,23 +106,26 @@ fun OverflowMenuItemsContent(menuItems: List<OverflowMenuItem>, expanded: Mutabl
                     text = {
                         Text(text = menuText, modifier = Modifier.padding(start = startPadding, end = endPadding))
                     },
-                    leadingIcon = if (menuItem.leadingIcon != null) {
-                        {
-                            menuItem.leadingIcon?.let { Icon(it, contentDescription = null) }
-                        }
-                    } else {
-                        null
-                    },
-                    trailingIcon = if (menuItem.trailingIcon != null) {
-                        {
-                            menuItem.trailingIcon?.let { Icon(it, contentDescription = null) }
-                        }
-                    } else {
-                        null
-                    },
+                    leadingIcon =
+                        if (menuItem.leadingIcon != null) {
+                            {
+                                menuItem.leadingIcon?.let { Icon(it, contentDescription = null) }
+                            }
+                        } else {
+                            null
+                        },
+                    trailingIcon =
+                        if (menuItem.trailingIcon != null) {
+                            {
+                                menuItem.trailingIcon?.let { Icon(it, contentDescription = null) }
+                            }
+                        } else {
+                            null
+                        },
                     modifier = Modifier.defaultMinSize(minWidth = 175.dp),
                 )
             }
+
             is OverflowMenuItem.Divider -> {
                 Divider()
             }
@@ -118,7 +140,12 @@ sealed interface OverflowMenuItem {
         open val trailingIcon: ImageVector? = null,
         open val action: () -> Unit,
     ) : OverflowMenuItem {
-        constructor(@StringRes textId: Int, leadingIcon: ImageVector? = null, trailingIcon: ImageVector? = null, action: () -> Unit) : this(
+        constructor(
+            @StringRes textId: Int,
+            leadingIcon: ImageVector? = null,
+            trailingIcon: ImageVector? = null,
+            action: () -> Unit,
+        ) : this(
             text = { stringResource(textId) },
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
@@ -126,6 +153,7 @@ sealed interface OverflowMenuItem {
         )
 
         fun hasLeadingIcon(): Boolean = this.leadingIcon != null
+
         fun hasTrailingIcon(): Boolean = this.trailingIcon != null
     }
 

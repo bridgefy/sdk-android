@@ -38,9 +38,7 @@ import me.bridgefy.example.android.alerts.ux.MainAppScaffoldWithNavBar
 import me.bridgefy.example.android.alerts.ux.home.HomeScreenRoute
 
 @Composable
-fun SendTextScreen(
-    navController: NavController,
-) {
+fun SendTextScreen(navController: NavController) {
     MainAppScaffoldWithNavBar(
         title = "Amin Panel",
         hideNavigation = false,
@@ -61,13 +59,14 @@ fun SendTextScreen(
 fun TextCommandView(text: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Text(
             maxLines = 15,
@@ -96,13 +95,14 @@ private fun TextScreenContent() {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Spacer(modifier = Modifier.size(20.dp))
         Text(
@@ -125,13 +125,15 @@ private fun TextScreenContent() {
             },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp, bottom = 34.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp, bottom = 34.dp),
         ) {
             Text(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 8.dp, bottom = 8.dp),
                 text = "SEND NEW MESSAGE",
                 color = Color.White,
                 style = MaterialTheme.typography.button,
@@ -159,7 +161,7 @@ private fun OpenDialog(
                 Text(text = "Enter a message to send")
             },
             text = {
-                Column() {
+                Column {
                     val maxChar = 400
                     TextField(
                         singleLine = true,
@@ -209,7 +211,10 @@ private fun OpenDialog(
     }
 }
 
-fun sendTextCommand(text: String, context: Context) {
+fun sendTextCommand(
+    text: String,
+    context: Context,
+) {
     context.startService(
         Intent(context, BridgefyService::class.java).apply {
             action = BridgefyService.SDK_SEND_TEXT

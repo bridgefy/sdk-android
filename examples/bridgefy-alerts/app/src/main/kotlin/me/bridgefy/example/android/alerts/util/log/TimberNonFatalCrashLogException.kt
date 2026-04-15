@@ -5,8 +5,9 @@ import timber.log.Timber
 /**
  * Non-fatal exception for use with Timber and Crashlytics
  */
-class TimberNonFatalCrashLogException(message: String) : RuntimeException(message) {
-
+class TimberNonFatalCrashLogException(
+    message: String,
+) : RuntimeException(message) {
     override fun fillInStackTrace(): Throwable {
         super.fillInStackTrace()
         val iterator = stackTrace.iterator()
@@ -36,7 +37,5 @@ class TimberNonFatalCrashLogException(message: String) : RuntimeException(messag
         return this
     }
 
-    private fun isTimber(stackTraceElement: StackTraceElement): Boolean {
-        return stackTraceElement.className == Timber::class.java.name
-    }
+    private fun isTimber(stackTraceElement: StackTraceElement): Boolean = stackTraceElement.className == Timber::class.java.name
 }

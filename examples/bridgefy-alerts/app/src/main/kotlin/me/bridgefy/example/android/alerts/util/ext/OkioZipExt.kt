@@ -11,7 +11,11 @@ import okio.openZip
  * @param fileInZip file Path of file in zip file
  * @param outFile target file Path to copy the file to
  */
-fun FileSystem.unzipFile(sourceZipFile: Path, fileInZip: Path, outFile: Path) {
+fun FileSystem.unzipFile(
+    sourceZipFile: Path,
+    fileInZip: Path,
+    outFile: Path,
+) {
     require(exists(sourceZipFile)) { "sourceZipFile ($sourceZipFile) does not exist" }
     val zipFilesystem = openZip(sourceZipFile)
     zipFilesystem.copyFileToFileSystem(fileInZip, this, outFile)
@@ -23,7 +27,11 @@ fun FileSystem.unzipFile(sourceZipFile: Path, fileInZip: Path, outFile: Path) {
  * @param targetDir Directory that will be created and contents will be unzipped to
  * @param mustCreate Fail if the directory already exists. default = false
  */
-fun FileSystem.unzip(sourceZipFile: Path, targetDir: Path, mustCreate: Boolean = false) {
+fun FileSystem.unzip(
+    sourceZipFile: Path,
+    targetDir: Path,
+    mustCreate: Boolean = false,
+) {
     require(!isDirectory(sourceZipFile)) { "sourceZipFile must be a file" }
     require(exists(sourceZipFile)) { "sourceZipFile ($sourceZipFile) does not exist" }
 
