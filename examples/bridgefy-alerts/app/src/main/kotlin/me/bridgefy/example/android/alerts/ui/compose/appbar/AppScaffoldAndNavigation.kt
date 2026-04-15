@@ -36,6 +36,7 @@ fun AppScaffoldAndNavigation(
                 AppScaffoldContentWrapper(innerPadding, content = content)
             }
         }
+
         navBarData?.appNavBarType == AppNavBarType.NAV_DRAWER -> {
             // NavDrawer
             navBarData.navDrawer()?.invoke {
@@ -52,6 +53,7 @@ fun AppScaffoldAndNavigation(
                 }
             }
         }
+
         else -> {
             // NavBar / NavRail
             Scaffold(
@@ -84,6 +86,7 @@ private fun AppScaffoldContentWrapper(
                     content(innerPadding)
                 }
             }
+
             else -> {
                 // Content
                 content(innerPadding)

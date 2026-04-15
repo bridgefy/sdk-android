@@ -31,10 +31,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.delay
 import me.bridgefy.example.android.alerts.ui.compose.DayNightTextField
 import me.bridgefy.example.android.alerts.ui.compose.PreviewDefault
 import me.bridgefy.example.android.alerts.ui.theme.AppTheme
-import kotlinx.coroutines.delay
 
 @Composable
 fun InputDialog(
@@ -54,7 +54,14 @@ fun InputDialog(
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     textButtonColor: Color = MaterialTheme.colorScheme.primary, // This is specifically for handling theming in this app. May not want in Commons.
 ) {
-    var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue(initialTextFieldText.orEmpty(), TextRange(initialTextFieldText?.length ?: 0))) }
+    var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(
+            TextFieldValue(
+                initialTextFieldText.orEmpty(),
+                TextRange(initialTextFieldText?.length ?: 0),
+            ),
+        )
+    }
 
     val focusRequester = remember { FocusRequester() }
 
@@ -83,23 +90,26 @@ fun InputDialog(
                 DayNightTextField(
                     value = textFieldValue,
                     onValueChange = { newTextFieldValue ->
-                        val newText = if (maxLength > 0) {
-                            newTextFieldValue.text.take(maxLength)
-                        } else {
-                            newTextFieldValue.text
-                        }
+                        val newText =
+                            if (maxLength > 0) {
+                                newTextFieldValue.text.take(maxLength)
+                            } else {
+                                newTextFieldValue.text
+                            }
 
                         textFieldValue = newTextFieldValue.copy(newText)
                     },
-                    label = if (textFieldLabel != null) {
-                        { Text(textFieldLabel) }
-                    } else {
-                        null
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                        .focusRequester(focusRequester),
+                    label =
+                        if (textFieldLabel != null) {
+                            { Text(textFieldLabel) }
+                        } else {
+                            null
+                        },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                            .focusRequester(focusRequester),
                     singleLine = singleLine,
                     keyboardOptions = keyboardOptions.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
@@ -113,9 +123,10 @@ fun InputDialog(
                 // Buttons
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
                 ) {
                     if (onDismissButtonClicked != null && dismissButtonText != null) {
                         TextButton(
@@ -144,9 +155,7 @@ fun InputDialog(
 }
 
 @Composable
-fun InputDialog(
-    dialogUiState: InputDialogUiState,
-) {
+fun InputDialog(dialogUiState: InputDialogUiState) {
     InputDialog(
         onDismissRequest = dialogUiState.onDismissRequest,
         title = dialogUiState.title(),
@@ -238,29 +247,32 @@ fun TwoInputDialog(
                 DayNightTextField(
                     value = textFieldValueFirst,
                     onValueChange = { newTextFieldValue ->
-                        val newText = if (maxLengthFirst > 0) {
-                            newTextFieldValue.text.take(maxLengthFirst)
-                        } else {
-                            newTextFieldValue.text
-                        }
+                        val newText =
+                            if (maxLengthFirst > 0) {
+                                newTextFieldValue.text.take(maxLengthFirst)
+                            } else {
+                                newTextFieldValue.text
+                            }
 
                         textFieldValueFirst = newTextFieldValue.copy(newText)
                     },
-                    label = if (textFieldLabelFirst != null) {
-                        { Text(textFieldLabelFirst) }
-                    } else {
-                        null
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                        .focusRequester(item1)
-                        .focusProperties {
-                            next = item2
-                            down = item2
-                            previous = item2
-                            up = item2
+                    label =
+                        if (textFieldLabelFirst != null) {
+                            { Text(textFieldLabelFirst) }
+                        } else {
+                            null
                         },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                            .focusRequester(item1)
+                            .focusProperties {
+                                next = item2
+                                down = item2
+                                previous = item2
+                                up = item2
+                            },
                     singleLine = singleLine,
                     keyboardOptions = keyboardOptions.copy(imeAction = ImeAction.Next),
                 )
@@ -269,29 +281,32 @@ fun TwoInputDialog(
                 DayNightTextField(
                     value = textFieldValueSecond,
                     onValueChange = { newTextFieldValue ->
-                        val newText = if (maxLengthSecond > 0) {
-                            newTextFieldValue.text.take(maxLengthSecond)
-                        } else {
-                            newTextFieldValue.text
-                        }
+                        val newText =
+                            if (maxLengthSecond > 0) {
+                                newTextFieldValue.text.take(maxLengthSecond)
+                            } else {
+                                newTextFieldValue.text
+                            }
 
                         textFieldValueSecond = newTextFieldValue.copy(newText)
                     },
-                    label = if (textFieldLabelSecond != null) {
-                        { Text(textFieldLabelSecond) }
-                    } else {
-                        null
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .focusRequester(item2)
-                        .focusProperties {
-                            next = item1
-                            down = item1
-                            previous = item1
-                            up = item1
+                    label =
+                        if (textFieldLabelSecond != null) {
+                            { Text(textFieldLabelSecond) }
+                        } else {
+                            null
                         },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                            .focusRequester(item2)
+                            .focusProperties {
+                                next = item1
+                                down = item1
+                                previous = item1
+                                up = item1
+                            },
                     singleLine = singleLine,
                     keyboardOptions = keyboardOptions.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
@@ -305,9 +320,10 @@ fun TwoInputDialog(
                 // Buttons
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
                 ) {
                     if (onDismissButtonClicked != null && dismissButtonText != null) {
                         TextButton(
@@ -319,7 +335,9 @@ fun TwoInputDialog(
                         }
                     }
                     if (onConfirmButtonClicked != null && confirmButtonText != null) {
-                        val isEnabled = (minLengthFirst == -1 || textFieldValueFirst.text.length >= minLengthFirst) && (minLengthSecond == -1 || textFieldValueSecond.text.length >= minLengthSecond)
+                        val isEnabled =
+                            (minLengthFirst == -1 || textFieldValueFirst.text.length >= minLengthFirst) &&
+                                (minLengthSecond == -1 || textFieldValueSecond.text.length >= minLengthSecond)
                         TextButton(
                             enabled = isEnabled,
                             onClick = {
@@ -336,9 +354,7 @@ fun TwoInputDialog(
 }
 
 @Composable
-fun TwoInputDialog(
-    dialogUiState: TwoInputDialogUiState,
-) {
+fun TwoInputDialog(dialogUiState: TwoInputDialogUiState) {
     TwoInputDialog(
         onDismissRequest = { dialogUiState.onDismissRequest() },
         title = dialogUiState.title(),

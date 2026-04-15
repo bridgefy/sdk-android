@@ -1,4 +1,6 @@
-package me.bridgefy.example.android.alerts.ui.notification // ktlint-disable package-name
+@file:Suppress("ktlint:standard:package-name")
+
+package me.bridgefy.example.android.alerts.ui.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

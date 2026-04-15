@@ -34,40 +34,43 @@ fun SentMessageRow(
 ) {
     Column(
         horizontalAlignment = Alignment.End,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xffE7FFDB))
-                .clickable { },
-
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xffE7FFDB))
+                    .clickable { },
             content = {
                 if (quotedMessage != null || quotedImage != null) {
                     QuotedMessage(
-                        modifier = Modifier
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                            .height(IntrinsicSize.Min)
-                            .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable {
-                            },
+                        modifier =
+                            Modifier
+                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                .height(IntrinsicSize.Min)
+                                .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
+                                .clip(shape = RoundedCornerShape(8.dp))
+                                .clickable {
+                                },
                         quotedMessage = quotedMessage,
                         quotedImage = quotedImage,
                     )
                 }
 
                 ChatFlexBoxLayout(
-                    modifier = Modifier.padding(
-                        start = 2.dp,
-                        top = 2.dp,
-                        end = 8.dp,
-                        bottom = 2.dp,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            start = 2.dp,
+                            top = 2.dp,
+                            end = 8.dp,
+                            bottom = 2.dp,
+                        ),
                     text = text,
                     messageStat = {
                         MessageTimeText(
@@ -91,41 +94,43 @@ fun SentMessageRowAlt1(
     val chatRowData = remember { ChatRowData() }
     Column(
         horizontalAlignment = Alignment.End,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
-
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xffE7FFDB))
-                .clickable { },
-
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xffE7FFDB))
+                    .clickable { },
             content = {
                 if (quotedMessage != null || quotedImage != null) {
                     QuotedMessage(
-                        modifier = Modifier
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                            .height(IntrinsicSize.Min)
-                            .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable {
-                            },
+                        modifier =
+                            Modifier
+                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                .height(IntrinsicSize.Min)
+                                .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
+                                .clip(shape = RoundedCornerShape(8.dp))
+                                .clickable {
+                                },
                         quotedMessage = quotedMessage,
                         quotedImage = quotedImage,
                     )
                 }
 
                 ChatFlexBoxLayout(
-                    modifier = Modifier.padding(
-                        start = 2.dp,
-                        top = 2.dp,
-                        end = 8.dp,
-                        bottom = 2.dp,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            start = 2.dp,
+                            top = 2.dp,
+                            end = 8.dp,
+                            bottom = 2.dp,
+                        ),
                     message = {
                         Text(
                             modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp),
@@ -158,28 +163,29 @@ fun SentMessageRowAlt2(
 ) {
     Column(
         horizontalAlignment = Alignment.End,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xffE7FFDB))
-                .clickable { },
-
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xffE7FFDB))
+                    .clickable { },
             mainContent = {
                 if (quotedMessage != null || quotedImage != null) {
                     QuotedMessage(
-                        modifier = Modifier
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                            .height(IntrinsicSize.Min)
-                            .background(Color(0xffDEF6D3)
-                                , shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable {},
+                        modifier =
+                            Modifier
+                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                .height(IntrinsicSize.Min)
+                                .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
+                                .clip(shape = RoundedCornerShape(8.dp))
+                                .clickable {},
                         quotedMessage = quotedMessage,
                         quotedImage = quotedImage,
                     )
@@ -187,12 +193,13 @@ fun SentMessageRowAlt2(
             },
             dependentContent = {
                 ChatFlexBoxLayout(
-                    modifier = Modifier.padding(
-                        start = 2.dp,
-                        top = 2.dp,
-                        end = 8.dp,
-                        bottom = 2.dp,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            start = 2.dp,
+                            top = 2.dp,
+                            end = 8.dp,
+                            bottom = 2.dp,
+                        ),
                     text = text,
                     messageStat = {
                         MessageTimeText(
@@ -215,28 +222,30 @@ fun SentMessageRowAlt3(
 ) {
     Column(
         horizontalAlignment = Alignment.End,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 60.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xffE7FFDB))
-                .clickable { },
-
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xffE7FFDB))
+                    .clickable { },
             mainContent = {
                 if (quotedMessage != null || quotedImage != null) {
                     QuotedMessageWithConstraintLayout(
-                        modifier = Modifier
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                            .height(IntrinsicSize.Min)
-                            .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable {
-                            },
+                        modifier =
+                            Modifier
+                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                .height(IntrinsicSize.Min)
+                                .background(Color(0xffDEF6D3), shape = RoundedCornerShape(8.dp))
+                                .clip(shape = RoundedCornerShape(8.dp))
+                                .clickable {
+                                },
                         quotedMessage = quotedMessage,
                         quotedImage = quotedImage,
                     )
@@ -244,12 +253,13 @@ fun SentMessageRowAlt3(
             },
             dependentContent = {
                 ChatFlexBoxLayout(
-                    modifier = Modifier.padding(
-                        start = 2.dp,
-                        top = 2.dp,
-                        end = 8.dp,
-                        bottom = 2.dp,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            start = 2.dp,
+                            top = 2.dp,
+                            end = 8.dp,
+                            bottom = 2.dp,
+                        ),
                     text = text,
                     messageStat = {
                         MessageTimeText(

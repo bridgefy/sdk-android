@@ -64,26 +64,28 @@ internal fun MainAppScaffoldWithNavBar(
     // TopAppBar
     val topAppBar: @Composable (() -> Unit) = {
         TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = colorResource(id = R.color.bridgefy_color),
-                titleContentColor = Color.White,
-                navigationIconContentColor = Color.White,
-                actionIconContentColor = Color.White,
-            ),
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(id = R.color.bridgefy_color),
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White,
+                ),
             title = { Text(title) },
-            navigationIcon = if (!navigationIconVisible) {
-                {}
-            } else {
-                {
-                    IconButton(onClick = { onNavigationClick?.invoke() }) {
-                        Icon(
-                            imageVector = navigationIcon,
-                            contentDescription = stringResource(id = R.string.back),
-                            modifier = Modifier,
-                        )
+            navigationIcon =
+                if (!navigationIconVisible) {
+                    {}
+                } else {
+                    {
+                        IconButton(onClick = { onNavigationClick?.invoke() }) {
+                            Icon(
+                                imageVector = navigationIcon,
+                                contentDescription = stringResource(id = R.string.back),
+                                modifier = Modifier,
+                            )
+                        }
                     }
-                }
-            },
+                },
             actions = {
                 if (actions != null) {
                     actions()
@@ -94,28 +96,29 @@ internal fun MainAppScaffoldWithNavBar(
     }
 
     // Navigation (support Bottom / Rail / Drawer)
-    val navBarData = AppNavBarData(
-        appNavBarType = AppNavBarType.byWindowSize(windowSize),
-        navBar = {
-            AppNavigationBar(
-                selectedItem = selectedBarItem,
-                onNavItemClicked = { viewModel.onNavBarItemSelected(it) },
-            )
-        },
-        navRail = {
-            AppNavigationRail(
-                selectedItem = selectedBarItem,
-                onNavItemClicked = { viewModel.onNavBarItemSelected(it) },
-            )
-        },
-        navDrawer = { appScaffold ->
-            AppNavigationDrawer(
-                selectedItem = selectedBarItem,
-                onNavItemClicked = { viewModel.onNavBarItemSelected(it) },
-                appScaffoldContent = appScaffold,
-            )
-        },
-    )
+    val navBarData =
+        AppNavBarData(
+            appNavBarType = AppNavBarType.byWindowSize(windowSize),
+            navBar = {
+                AppNavigationBar(
+                    selectedItem = selectedBarItem,
+                    onNavItemClicked = { viewModel.onNavBarItemSelected(it) },
+                )
+            },
+            navRail = {
+                AppNavigationRail(
+                    selectedItem = selectedBarItem,
+                    onNavItemClicked = { viewModel.onNavBarItemSelected(it) },
+                )
+            },
+            navDrawer = { appScaffold ->
+                AppNavigationDrawer(
+                    selectedItem = selectedBarItem,
+                    onNavItemClicked = { viewModel.onNavBarItemSelected(it) },
+                    appScaffoldContent = appScaffold,
+                )
+            },
+        )
 
     // Scaffold
     AppScaffoldAndNavigation(
@@ -142,7 +145,15 @@ private fun AppNavigationBar(
             contentColor = Color.White,
         ) {
             NavBarItem.values().forEach { item ->
-                AppBottomNavigationItem(item, ImageVector.vectorResource(id = item.unselectedImage), ImageVector.vectorResource(id = item.selectedImage), selectedItem, item.textResId) { onNavItemClicked(it) }
+                AppBottomNavigationItem(
+                    item,
+                    ImageVector.vectorResource(id = item.unselectedImage),
+                    ImageVector.vectorResource(id = item.selectedImage),
+                    selectedItem,
+                    item.textResId,
+                ) {
+                    onNavItemClicked(it)
+                }
             }
         }
     }
@@ -157,7 +168,15 @@ private fun AppNavigationRail(
     Row(modifier = modifier) {
         NavigationRail {
             NavBarItem.values().forEach { item ->
-                AppNavigationRailItem(item, ImageVector.vectorResource(id = item.unselectedImage), ImageVector.vectorResource(id = item.selectedImage), selectedItem, item.textResId) { onNavItemClicked(it) }
+                AppNavigationRailItem(
+                    item,
+                    ImageVector.vectorResource(id = item.unselectedImage),
+                    ImageVector.vectorResource(id = item.selectedImage),
+                    selectedItem,
+                    item.textResId,
+                ) {
+                    onNavItemClicked(it)
+                }
             }
         }
     }
@@ -176,7 +195,15 @@ private fun AppNavigationDrawer(
                 AppNavigationDrawerLabel(stringResource(R.string.app_name))
 
                 NavBarItem.values().forEach { item ->
-                    AppNavigationDrawerItem(item, ImageVector.vectorResource(id = item.unselectedImage), ImageVector.vectorResource(id = item.selectedImage), selectedItem, item.textResId) { onNavItemClicked(it) }
+                    AppNavigationDrawerItem(
+                        item,
+                        ImageVector.vectorResource(id = item.unselectedImage),
+                        ImageVector.vectorResource(id = item.selectedImage),
+                        selectedItem,
+                        item.textResId,
+                    ) {
+                        onNavItemClicked(it)
+                    }
                 }
             }
         },

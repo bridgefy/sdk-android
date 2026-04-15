@@ -26,6 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
+import me.bridgefy.example.android.alerts.R
 import me.bridgefy.example.android.alerts.service.BridgefyService
 import me.bridgefy.example.android.alerts.ui.compose.appbar.AppBarMenu
 import me.bridgefy.example.android.alerts.ui.compose.appbar.AppBarMenuItem
@@ -34,10 +36,8 @@ import me.bridgefy.example.android.alerts.ux.MainAppScaffoldWithNavBar
 import me.bridgefy.example.android.alerts.ux.chat.chatcomponets.ChatInput
 import me.bridgefy.example.android.alerts.ux.chat.chatcomponets.ReceivedMessageRow
 import me.bridgefy.example.android.alerts.ux.chat.chatcomponets.SentMessageRow
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
-import me.bridgefy.example.android.alerts.R
 
 @Composable
 fun ChatScreen(
@@ -45,16 +45,17 @@ fun ChatScreen(
     viewModel: ChatViewModel = hiltViewModel(LocalContext.current.requireActivity()),
 ) {
     val uiState = viewModel.uiState
-    val appBarMenuItems = listOf(
-        AppBarMenuItem.Icon(
-            Icons.Outlined.Clear,
-            androidx.compose.ui.R.string.close_drawer,
-        ) { uiState.onDeleteChat() },
-        AppBarMenuItem.OverflowMenuItem(R.string.remote_option) { navController.popBackStack() },
-    )
+    val appBarMenuItems =
+        listOf(
+            AppBarMenuItem.Icon(
+                Icons.Outlined.Clear,
+                androidx.compose.ui.R.string.close_drawer,
+            ) { uiState.onDeleteChat() },
+            AppBarMenuItem.OverflowMenuItem(R.string.remote_option) { navController.popBackStack() },
+        )
     MainAppScaffoldWithNavBar(
         title = "Chat",
-        navigationIconVisible = false,
+        navigationIconVisible = true,
         actions = { AppBarMenu(menuItems = appBarMenuItems) },
         onNavigationClick = { navController.popBackStack() },
         hideNavigation = true,
@@ -64,27 +65,27 @@ fun ChatScreen(
 }
 
 @Composable
-private fun ChatContent(
-    uiState: ChatUiState,
-) {
+private fun ChatContent(uiState: ChatUiState) {
     val sdf = remember { SimpleDateFormat("hh:mm", Locale.ROOT) }
     val conversation by uiState.getConversationFlow.collectAsState()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .paint(
-                painter = painterResource(id = R.drawable.chatbackground),
-                contentScale = ContentScale.FillBounds,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .paint(
+                    painter = painterResource(id = R.drawable.chatbackground),
+                    contentScale = ContentScale.FillBounds,
+                ),
     ) {
         val coroutineScope = rememberCoroutineScope()
         val scrollState = rememberLazyListState()
 
         LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
             state = scrollState,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             // contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
@@ -126,7 +127,10 @@ private fun ChatContent(
     }
 }
 
-fun sendMessageCommand(message: String, context: Context) {
+fun sendMessageCommand(
+    message: String,
+    context: Context,
+) {
     context.startService(
         Intent(context, BridgefyService::class.java).apply {
             action = BridgefyService.SDK_SEND_MESSAGE

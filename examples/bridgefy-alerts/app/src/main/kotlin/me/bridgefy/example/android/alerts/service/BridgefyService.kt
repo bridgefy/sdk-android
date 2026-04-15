@@ -30,13 +30,14 @@ import me.bridgefy.example.android.alerts.model.repository.ConversationRepositor
 import me.bridgefy.example.android.alerts.model.repository.UserRepository
 import me.bridgefy.example.android.alerts.ui.notification.NotificationChannels
 import me.bridgefy.example.android.alerts.ux.main.MainActivity
-import me.bridgefy.logger.enum.LogType
+import me.bridgefy.logger.enums.LogType
 import java.util.UUID
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BridgefyService : Service(), BridgefyDelegate {
-
+class BridgefyService :
+    Service(),
+    BridgefyDelegate {
     @Inject
     lateinit var conversationRepository: ConversationRepository
 
@@ -77,9 +78,7 @@ class BridgefyService : Service(), BridgefyDelegate {
 
     private val binder = LocalBinder()
 
-    override fun onBind(p0: Intent?): IBinder {
-        return binder
-    }
+    override fun onBind(p0: Intent?): IBinder = binder
 
     override fun onCreate() {
         super.onCreate()
@@ -90,19 +89,22 @@ class BridgefyService : Service(), BridgefyDelegate {
     fun doForegroundThings() {
         showToast("Going foreground")
         val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-        )
+        val pendingIntent =
+            PendingIntent.getActivity(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+            )
         isForegroundService = true
-        val builder = NotificationCompat.Builder(this, NotificationChannels.GENERAL.channelId)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Bridgefy Alerts")
-            .setContentText("Bridgefy SDK")
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val builder =
+            NotificationCompat
+                .Builder(this, NotificationChannels.GENERAL.channelId)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Bridgefy Alerts")
+                .setContentText("Bridgefy SDK")
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notification = builder.build()
         with(NotificationManagerCompat.from(this)) { notify(4, notification) }
@@ -134,20 +136,57 @@ class BridgefyService : Service(), BridgefyDelegate {
         )
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int,
+    ): Int {
         when (val intentAction = intent?.action) {
             START_SERVICE -> {}
-            STOP_SERVICE -> stopService()
-            SDK_SEND_MESSAGE -> intent.getStringExtra("message")?.let { sendMessage(it) }
-            SDK_SEND_IMAGE -> intent.getStringExtra("image")?.let { sendImageCommand(it.toInt()) }
-            SDK_SEND_COLOR -> intent.getStringExtra("color")?.let { sendColorCommand(it) }
-            SDK_SEND_TEXT -> intent.getStringExtra("text")?.let { sendTextCommand(it) }
-            SDK_SEND_FLASH -> sendFlashCommand()
-            SDK_SEND_SOUND -> sendSoundCommand()
-            SHOW_MAIN_SCREEN -> showMainScreenCommand()
-            INIT_SDK -> if (!isBridgefyStarted) initBridgefySDK()
-            FOREGROUND_SERVICE -> doForegroundThings()
-            else -> showToast(intentAction ?: "Empty action intent")
+
+            STOP_SERVICE -> {
+                stopService()
+            }
+
+            SDK_SEND_MESSAGE -> {
+                intent.getStringExtra("message")?.let { sendMessage(it) }
+            }
+
+            SDK_SEND_IMAGE -> {
+                intent.getStringExtra("image")?.let { sendImageCommand(it.toInt()) }
+            }
+
+            SDK_SEND_COLOR -> {
+                intent.getStringExtra("color")?.let { sendColorCommand(it) }
+            }
+
+            SDK_SEND_TEXT -> {
+                intent.getStringExtra("text")?.let { sendTextCommand(it) }
+            }
+
+            SDK_SEND_FLASH -> {
+                sendFlashCommand()
+            }
+
+            SDK_SEND_SOUND -> {
+                sendSoundCommand()
+            }
+
+            SHOW_MAIN_SCREEN -> {
+                showMainScreenCommand()
+            }
+
+            INIT_SDK -> {
+                if (!isBridgefyStarted) initBridgefySDK()
+            }
+
+            FOREGROUND_SERVICE -> {
+                doForegroundThings()
+            }
+
+            else -> {
+                showToast(intentAction ?: "Empty action intent")
+            }
         }
         return START_STICKY
     }
@@ -155,11 +194,12 @@ class BridgefyService : Service(), BridgefyDelegate {
     private fun sendImageCommand(image: Int) {
         serviceScope.launch {
             bridgefyUUID?.let { id ->
-                val payload = MessagePayload(
-                    id = System.currentTimeMillis(),
-                    command = Commands.IMAGE.ordinal + 1,
-                    image = image,
-                )
+                val payload =
+                    MessagePayload(
+                        id = System.currentTimeMillis(),
+                        command = Commands.IMAGE.ordinal + 1,
+                        image = image,
+                    )
                 bridgefy.send(
                     Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
                     TransmissionMode.Broadcast(id),
@@ -171,11 +211,12 @@ class BridgefyService : Service(), BridgefyDelegate {
     private fun sendColorCommand(color: String) {
         serviceScope.launch {
             bridgefyUUID?.let { id ->
-                val payload = MessagePayload(
-                    id = System.currentTimeMillis(),
-                    command = Commands.COLOR.ordinal + 1,
-                    color = color,
-                )
+                val payload =
+                    MessagePayload(
+                        id = System.currentTimeMillis(),
+                        command = Commands.COLOR.ordinal + 1,
+                        color = color,
+                    )
                 bridgefy.send(
                     Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
                     TransmissionMode.Broadcast(id),
@@ -187,11 +228,12 @@ class BridgefyService : Service(), BridgefyDelegate {
     private fun sendTextCommand(text: String) {
         serviceScope.launch {
             bridgefyUUID?.let { id ->
-                val payload = MessagePayload(
-                    id = System.currentTimeMillis(),
-                    text = text,
-                    command = Commands.TEXT.ordinal + 1,
-                )
+                val payload =
+                    MessagePayload(
+                        id = System.currentTimeMillis(),
+                        text = text,
+                        command = Commands.TEXT.ordinal + 1,
+                    )
                 bridgefy.send(
                     Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
                     TransmissionMode.Broadcast(id),
@@ -203,10 +245,11 @@ class BridgefyService : Service(), BridgefyDelegate {
     private fun sendFlashCommand() {
         serviceScope.launch {
             bridgefyUUID?.let { id ->
-                val payload = MessagePayload(
-                    command = Commands.FLASHLIGHT.ordinal + 1,
-                    id = System.currentTimeMillis(),
-                )
+                val payload =
+                    MessagePayload(
+                        command = Commands.FLASHLIGHT.ordinal + 1,
+                        id = System.currentTimeMillis(),
+                    )
                 bridgefy.send(
                     Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
                     TransmissionMode.Broadcast(id),
@@ -224,10 +267,11 @@ class BridgefyService : Service(), BridgefyDelegate {
     private fun sendSoundCommand() {
         serviceScope.launch {
             bridgefyUUID?.let { id ->
-                val payload = MessagePayload(
-                    command = Commands.SOUND.ordinal + 1,
-                    id = System.currentTimeMillis(),
-                )
+                val payload =
+                    MessagePayload(
+                        command = Commands.SOUND.ordinal + 1,
+                        id = System.currentTimeMillis(),
+                    )
                 bridgefy.send(
                     Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
                     TransmissionMode.Broadcast(id),
@@ -240,20 +284,23 @@ class BridgefyService : Service(), BridgefyDelegate {
         serviceScope.launch {
             userRepository.getUserData()?.let { userData ->
                 bridgefyUUID?.let { id ->
-                    val payload = MessagePayload(
-                        ct = MessageContentPayload(
-                            text = message,
-                            username = userData.userName ?: "Bridgefy User",
-                            platform = 1,
-                            date = System.currentTimeMillis() / 1000,
-                        ),
-                        command = Commands.CHAT.ordinal + 1,
-                    )
+                    val payload =
+                        MessagePayload(
+                            ct =
+                                MessageContentPayload(
+                                    text = message,
+                                    username = userData.userName ?: "Bridgefy User",
+                                    platform = 1,
+                                    date = System.currentTimeMillis() / 1000,
+                                ),
+                            command = Commands.CHAT.ordinal + 1,
+                        )
 
-                    val messageID = bridgefy.send(
-                        Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
-                        TransmissionMode.Broadcast(id),
-                    )
+                    val messageID =
+                        bridgefy.send(
+                            Json.encodeToString(payload).toByteArray(Charsets.UTF_8),
+                            TransmissionMode.Broadcast(id),
+                        )
                     conversationRepository.handleSentMessage(
                         message,
                         id.toString(),
@@ -273,6 +320,7 @@ class BridgefyService : Service(), BridgefyDelegate {
     }
 
     override fun onConnectedPeers(connectedPeers: List<UUID>) {}
+
     override fun onDestroySession() {
         TODO("Not yet implemented")
     }
@@ -289,11 +337,17 @@ class BridgefyService : Service(), BridgefyDelegate {
         println("onFailToDestroySession ${error.message}")
     }
 
-    override fun onFailToEstablishSecureConnection(userId: UUID, error: BridgefyException) {
+    override fun onFailToEstablishSecureConnection(
+        userId: UUID,
+        error: BridgefyException,
+    ) {
         println("onFailToEstablishSecureConnection with $userId - ${error.message}")
     }
 
-    override fun onFailToSend(messageID: UUID, error: BridgefyException) {
+    override fun onFailToSend(
+        messageID: UUID,
+        error: BridgefyException,
+    ) {
         println("onFailToSend with ID $messageID - ${error.message}")
     }
 
@@ -305,7 +359,12 @@ class BridgefyService : Service(), BridgefyDelegate {
         println("onFailToStop ${error.localizedMessage}")
     }
 
-    override fun onProgressOfSend(messageID: UUID, position: Int, of: Int) {}
+    override fun onProgressOfSend(
+        messageID: UUID,
+        position: Int,
+        of: Int,
+    ) {}
+
     override fun onReceiveData(
         data: ByteArray,
         messageID: UUID,
@@ -315,7 +374,9 @@ class BridgefyService : Service(), BridgefyDelegate {
             when (transmissionMode) {
                 is TransmissionMode.Mesh,
                 is TransmissionMode.Broadcast,
-                -> processReceivedCommand(Json.decodeFromString(String(data)))
+                -> {
+                    processReceivedCommand(Json.decodeFromString(String(data)))
+                }
 
                 else -> {}
             }
@@ -323,9 +384,7 @@ class BridgefyService : Service(), BridgefyDelegate {
         }
     }
 
-    private fun processReceivedCommand(
-        messagePayload: MessagePayload,
-    ) {
+    private fun processReceivedCommand(messagePayload: MessagePayload) {
         when (messagePayload.command) {
             Commands.CHAT.ordinal + 1 -> {
                 messagePayload.ct?.let { messageContent ->
@@ -353,12 +412,17 @@ class BridgefyService : Service(), BridgefyDelegate {
                 }
             }
 
-            Commands.SOUND.ordinal + 1 -> handleReceivedActionCommand("sound", "")
+            Commands.SOUND.ordinal + 1 -> {
+                handleReceivedActionCommand("sound", "")
+            }
+
             Commands.TEXT.ordinal + 1 -> {
                 messagePayload.text?.let { text -> handleReceivedActionCommand("text", text) }
             }
 
-            Commands.FLASHLIGHT.ordinal + 1 -> handleReceivedActionCommand("flash", "")
+            Commands.FLASHLIGHT.ordinal + 1 -> {
+                handleReceivedActionCommand("flash", "")
+            }
         }
     }
 
@@ -371,7 +435,10 @@ class BridgefyService : Service(), BridgefyDelegate {
         )
     }
 
-    private fun handleReceivedActionCommand(bName: String, content: String) {
+    private fun handleReceivedActionCommand(
+        bName: String,
+        content: String,
+    ) {
         val intent = Intent("command_intent")
         intent.putExtra(bName, content)
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)

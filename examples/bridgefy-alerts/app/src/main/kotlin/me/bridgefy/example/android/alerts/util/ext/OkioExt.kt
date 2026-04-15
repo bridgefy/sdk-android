@@ -27,14 +27,20 @@ fun FileSystem.readText(path: Path): String = read(path) { readUtf8() }
  * @param path Okio Path
  * @param text Text to be written to the file
  */
-fun FileSystem.writeText(path: Path, text: String) = write(path) { writeUtf8(text) }
+fun FileSystem.writeText(
+    path: Path,
+    text: String,
+) = write(path) { writeUtf8(text) }
 
 /**
  * Write Okio source stream to file Path
  * @param source Okio Source
  * @param file Okio file Path
  */
-fun FileSystem.copySourceToFile(source: Source, file: Path) {
+fun FileSystem.copySourceToFile(
+    source: Source,
+    file: Path,
+) {
     source.buffer().use { bufferedSource ->
         write(file) { writeAll(bufferedSource) }
     }
@@ -45,7 +51,10 @@ fun FileSystem.copySourceToFile(source: Source, file: Path) {
  * @param inputStream Java InputStream
  * @param file Okio file Path
  */
-fun FileSystem.copyInputStreamToFile(inputStream: InputStream, file: Path) {
+fun FileSystem.copyInputStreamToFile(
+    inputStream: InputStream,
+    file: Path,
+) {
     inputStream.source().buffer().use { bufferedSource ->
         write(file) { writeAll(bufferedSource) }
     }
@@ -57,7 +66,11 @@ fun FileSystem.copyInputStreamToFile(inputStream: InputStream, file: Path) {
  * @param targetFileSystem Target FileSystem
  * @param target Path to file in target FileSystem
  */
-fun FileSystem.copyFileToFileSystem(source: Path, targetFileSystem: FileSystem, target: Path) {
+fun FileSystem.copyFileToFileSystem(
+    source: Path,
+    targetFileSystem: FileSystem,
+    target: Path,
+) {
     source(source).use { bytesIn ->
         targetFileSystem.sink(target).buffer().use { bytesOut ->
             bytesOut.writeAll(bytesIn)

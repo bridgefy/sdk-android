@@ -11,52 +11,44 @@ object RouteUtil {
      *
      * Usage: fragment<T>("individual/${defineArg("individualId")}") { ... }
      */
-    fun defineArg(argName: String): String {
-        return "{$argName}"
-    }
+    fun defineArg(argName: String): String = "{$argName}"
 
     /**
      * Used to define a route
      *
      * Usage: fragment<T>("individual?${defineOptionalArgs("individualId","enabled")}") { ... }
      */
-    fun defineOptionalArgs(vararg argNames: String): String {
-        return argNames.joinToString("&") { argName -> "$argName={$argName}" }
-    }
+    fun defineOptionalArgs(vararg argNames: String): String = argNames.joinToString("&") { argName -> "$argName={$argName}" }
 
     /**
      * Adds arguments to route for navigation calls
      *
      * Usage: val route = "individual$RouteUtil.optionalArgs(mapOf("individualId" to "1234","enabled" to true))"
      */
-    fun optionalArgs(argNameValues: Map<String, Any?>): String {
-        return argNameValues.filterValues { it != null }.entries.joinToString("&") {
-            val value = when (val v = it.value) {
-                is String -> encodeArg(v)
-                else -> v
-            }
+    fun optionalArgs(argNameValues: Map<String, Any?>): String =
+        argNameValues.filterValues { it != null }.entries.joinToString("&") {
+            val value =
+                when (val v = it.value) {
+                    is String -> encodeArg(v)
+                    else -> v
+                }
 
             "${it.key}=$value"
         }
-    }
 
     /**
      * Adds arguments to route for navigation calls
      *
      * Usage: val route = "individual$RouteUtil.optionalArgs(mapOf("individualId" to "1234","enabled" to true))"
      */
-    fun optionalArgs(argNameValues: List<Pair<String, Any?>>): String {
-        return optionalArgs(argNameValues.associate { it })
-    }
+    fun optionalArgs(argNameValues: List<Pair<String, Any?>>): String = optionalArgs(argNameValues.associate { it })
 
     /**
      * Adds arguments to route for navigation calls
      *
      * Usage: val route = "individual$RouteUtil.optionalArgs(mapOf("individualId" to "1234","enabled" to true))"
      */
-    fun optionalArgs(vararg argNameValues: Pair<String, Any?>): String {
-        return optionalArgs(argNameValues.toList())
-    }
+    fun optionalArgs(vararg argNameValues: Pair<String, Any?>): String = optionalArgs(argNameValues.toList())
 
     /**
      * URLEncoder String argument
@@ -66,7 +58,10 @@ object RouteUtil {
     /**
      * Used to transform List<String> to a String to be used with ListNavType.StringListType
      */
-    fun listToString(list: List<String>?, separator: String = DEFAULT_STRING_LIST_DELIMITER): String? {
+    fun listToString(
+        list: List<String>?,
+        separator: String = DEFAULT_STRING_LIST_DELIMITER,
+    ): String? {
         if (list.isNullOrEmpty()) {
             return null
         }

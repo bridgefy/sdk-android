@@ -68,9 +68,10 @@ fun <T> RadioDialog(
                 // Buttons
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
                 ) {
                     if (onDismissButtonClicked != null && dismissButtonText != null) {
                         TextButton(
@@ -97,7 +98,10 @@ fun <T> RadioDialog(
 }
 
 @Composable
-private fun <T> RadioDialogItems(radioDialogDataItems: RadioDialogDataItems<T>, onItemSelected: (T) -> Unit) {
+private fun <T> RadioDialogItems(
+    radioDialogDataItems: RadioDialogDataItems<T>,
+    onItemSelected: (T) -> Unit,
+) {
     Column(Modifier.selectableGroup()) {
         radioDialogDataItems.items.forEach { radioDialogDataItem ->
             Row(
@@ -126,9 +130,7 @@ private fun <T> RadioDialogItems(radioDialogDataItems: RadioDialogDataItems<T>, 
 }
 
 @Composable
-fun <T> RadioDialog(
-    dialogUiState: RadioDialogUiState<T>,
-) {
+fun <T> RadioDialog(dialogUiState: RadioDialogUiState<T>) {
     RadioDialog(
         items = dialogUiState.items,
         onItemSelected = dialogUiState.onConfirm,
@@ -151,21 +153,28 @@ data class RadioDialogUiState<T>(
     override val onDismissRequest: () -> Unit = {},
 ) : DialogUiState<T>
 
-data class RadioDialogDataItems<T>(val items: List<RadioDialogDataItem<T>>, val selectedItem: T)
+data class RadioDialogDataItems<T>(
+    val items: List<RadioDialogDataItem<T>>,
+    val selectedItem: T,
+)
 
-data class RadioDialogDataItem<T>(val item: T, val text: @Composable () -> String)
+data class RadioDialogDataItem<T>(
+    val item: T,
+    val text: @Composable () -> String,
+)
 
 @PreviewDefault
 @Composable
 private fun TestRadioDialog() {
-    val radioItems: RadioDialogDataItems<String> = RadioDialogDataItems(
-        listOf(
-            RadioDialogDataItem("id1") { "A" },
-            RadioDialogDataItem("id2") { "B" },
-            RadioDialogDataItem("id3") { "C" },
-        ),
-        "id2",
-    )
+    val radioItems: RadioDialogDataItems<String> =
+        RadioDialogDataItems(
+            listOf(
+                RadioDialogDataItem("id1") { "A" },
+                RadioDialogDataItem("id2") { "B" },
+                RadioDialogDataItem("id3") { "C" },
+            ),
+            "id2",
+        )
 
     AppTheme {
         RadioDialog(

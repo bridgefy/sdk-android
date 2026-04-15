@@ -1,7 +1,7 @@
 package me.bridgefy.example.android.alerts.ux.chat.chatcomponets
 
-
 import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -24,18 +24,19 @@ fun IndicatingIconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    indication: Indication = rememberRipple(bounded = false, radius = RippleRadius),
+    indication: Indication = LocalIndication.current,
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier = modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = indication,
-            ),
+        modifier =
+            modifier
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = indication,
+                ),
         contentAlignment = Alignment.Center,
     ) {
         val contentAlpha = if (enabled) LocalContentAlpha.current else ContentAlpha.disabled

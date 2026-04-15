@@ -8,16 +8,23 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(
-    private val mainDatabaseWrapper: MainDatabaseWrapper,
-    @ApplicationScope private val appScope: CoroutineScope,
-) {
+class UserRepository
+    @Inject
+    constructor(
+        private val mainDatabaseWrapper: MainDatabaseWrapper,
+        @ApplicationScope private val appScope: CoroutineScope,
+    ) {
+        private fun alertsDatabase() = mainDatabaseWrapper.getDatabase()
 
-    private fun alertsDatabase() = mainDatabaseWrapper.getDatabase()
-    private fun userDao() = alertsDatabase().userDao()
-    suspend fun getUserData(): UserEntity? = userDao().getUser()
-    suspend fun updateUserData(user: UserEntity) = userDao().updateUser(user)
-    suspend fun deleteUserData() = userDao().deleteUser()
-    fun getUserDataFlow() = userDao().getUserFlow()
-    suspend fun saveUserData(user: UserEntity) = userDao().insertUser(user)
-}
+        private fun userDao() = alertsDatabase().userDao()
+
+        suspend fun getUserData(): UserEntity? = userDao().getUser()
+
+        suspend fun updateUserData(user: UserEntity) = userDao().updateUser(user)
+
+        suspend fun deleteUserData() = userDao().deleteUser()
+
+        fun getUserDataFlow() = userDao().getUserFlow()
+
+        suspend fun saveUserData(user: UserEntity) = userDao().insertUser(user)
+    }

@@ -25,7 +25,17 @@ fun <T : Enum<T>> RowScope.AppBottomNavigationItem(
     val selected = selectedBarItem == navBarItem
 
     NavigationBarItem(
-        icon = { if (selected) Icon(selectedImageVector, contentDescription = null, tint = colorResource(id = R.color.bridgefy_color)) else Icon(unselectedImageVector, contentDescription = null, tint = Color.White) },
+        icon = {
+            if (selected) {
+                Icon(
+                    selectedImageVector,
+                    contentDescription = null,
+                    tint = colorResource(id = R.color.bridgefy_color),
+                )
+            } else {
+                Icon(unselectedImageVector, contentDescription = null, tint = Color.White)
+            }
+        },
         label = {
             when {
                 text != null -> Text(text, maxLines = 1, color = Color.White)

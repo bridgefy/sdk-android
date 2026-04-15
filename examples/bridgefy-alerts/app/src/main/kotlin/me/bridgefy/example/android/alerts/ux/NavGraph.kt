@@ -28,9 +28,7 @@ import me.bridgefy.example.android.alerts.ux.text.SendTextScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun NavGraph(
-    navController: NavHostController,
-) {
+fun NavGraph(navController: NavHostController) {
     // Debug navigation
     navController.addOnDestinationChangedListener(NavUriLogger())
 

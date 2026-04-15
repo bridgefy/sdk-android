@@ -4,16 +4,19 @@ import androidx.compose.runtime.Composable
 import me.bridgefy.example.android.alerts.ui.compose.util.WindowSize
 
 enum class AppNavBarType {
-    NO_NAV, NAV_BAR, NAV_RAIL, NAV_DRAWER;
+    NO_NAV,
+    NAV_BAR,
+    NAV_RAIL,
+    NAV_DRAWER,
+    ;
 
     companion object {
-        fun byWindowSize(windowSize: WindowSize): AppNavBarType {
-            return when (windowSize) {
+        fun byWindowSize(windowSize: WindowSize): AppNavBarType =
+            when (windowSize) {
                 WindowSize.COMPACT -> NAV_BAR
                 WindowSize.MEDIUM -> NAV_RAIL
                 WindowSize.EXPANDED -> NAV_DRAWER
             }
-        }
     }
 }
 
@@ -23,15 +26,15 @@ data class AppNavBarData(
     private val navRail: @Composable (() -> Unit)? = null,
     private val navDrawer: @Composable ((appScaffold: @Composable () -> Unit) -> Unit)? = null,
 ) {
-    fun bottomBar(): @Composable () -> Unit {
-        return if (navBar != null && appNavBarType == AppNavBarType.NAV_BAR) navBar else { {} }
-    }
+    fun bottomBar(): @Composable () -> Unit =
+        if (navBar != null && appNavBarType == AppNavBarType.NAV_BAR) {
+            navBar
+        } else {
+            {}
+        }
 
-    fun navRail(): @Composable (() -> Unit)? {
-        return if (navRail != null && appNavBarType == AppNavBarType.NAV_RAIL) navRail else null
-    }
+    fun navRail(): @Composable (() -> Unit)? = if (navRail != null && appNavBarType == AppNavBarType.NAV_RAIL) navRail else null
 
-    fun navDrawer(): @Composable ((appScaffold: @Composable () -> Unit) -> Unit)? {
-        return if (navDrawer != null && appNavBarType == AppNavBarType.NAV_DRAWER) navDrawer else null
-    }
+    fun navDrawer(): @Composable ((appScaffold: @Composable () -> Unit) -> Unit)? =
+        if (navDrawer != null && appNavBarType == AppNavBarType.NAV_DRAWER) navDrawer else null
 }

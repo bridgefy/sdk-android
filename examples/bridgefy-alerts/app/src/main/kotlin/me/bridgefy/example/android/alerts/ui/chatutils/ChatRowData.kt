@@ -1,7 +1,6 @@
 package me.bridgefy.example.android.alerts.ui.chatutils
 
 class ChatRowData {
-
     var text: String = ""
         internal set
 
@@ -24,10 +23,9 @@ class ChatRowData {
     var measuredType: Int = 0
         internal set
 
-    override fun toString(): String {
-        return "ChatRowData text: $text, " +
+    override fun toString(): String =
+        "ChatRowData text: $text, " +
             "lastLineWidth: $lastLineWidth, lineCount: $lineCount, " +
             "textWidth: $textWidth, rowWidth: $rowWidth, height: $rowHeight, " +
             "parentWidth: $parentWidth, measuredType: $measuredType"
-    }
 }

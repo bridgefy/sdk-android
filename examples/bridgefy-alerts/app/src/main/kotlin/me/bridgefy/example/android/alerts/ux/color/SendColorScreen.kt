@@ -40,9 +40,7 @@ import me.bridgefy.example.android.alerts.ux.MainAppScaffoldWithNavBar
 import me.bridgefy.example.android.alerts.ux.home.HomeScreenRoute
 
 @Composable
-fun SendColorScreen(
-    navController: NavController,
-) {
+fun SendColorScreen(navController: NavController) {
     MainAppScaffoldWithNavBar(
         title = "Amin Panel",
         hideNavigation = false,
@@ -64,44 +62,52 @@ fun ColorCommandView(color: String) {
     val colorArray = color.split("-").toTypedArray()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         ColorBox(
-            colorBackground = Color(
-                red = colorArray[0].toInt(),
-                green = colorArray[1].toInt(),
-                blue = colorArray[2].toInt(),
-            ),
+            colorBackground =
+                Color(
+                    red = colorArray[0].toInt(),
+                    green = colorArray[1].toInt(),
+                    blue = colorArray[2].toInt(),
+                ),
             boxSize = 1000,
         )
     }
 }
 
 @Composable
-private fun ColorBox(colorBackground: Color, boxSize: Int) {
+private fun ColorBox(
+    colorBackground: Color,
+    boxSize: Int,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center),
     ) {
         Box(
-            modifier = Modifier
-                .size(boxSize.dp)
-                .clip(shape = RectangleShape)
-                .background(colorBackground),
+            modifier =
+                Modifier
+                    .size(boxSize.dp)
+                    .clip(shape = RectangleShape)
+                    .background(colorBackground),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.bridgefy_white_complete_logo),
                 contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 34.dp)
-                    .fillMaxSize(),
+                modifier =
+                    Modifier
+                        .padding(start = 30.dp, end = 34.dp)
+                        .fillMaxSize(),
                 contentScale = ContentScale.Fit,
             )
         }
@@ -117,13 +123,14 @@ private fun ColorContent() {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Spacer(modifier = Modifier.size(20.dp))
         Text(
@@ -132,11 +139,12 @@ private fun ColorContent() {
         )
         Spacer(modifier = Modifier.size(20.dp))
         ColorBox(
-            colorBackground = Color(
-                red = redValue,
-                green = greenValue,
-                blue = blueValue,
-            ),
+            colorBackground =
+                Color(
+                    red = redValue,
+                    green = greenValue,
+                    blue = blueValue,
+                ),
             boxSize = 100,
         )
         Spacer(modifier = Modifier.size(20.dp))
@@ -146,10 +154,11 @@ private fun ColorContent() {
             onValueChangeFinished = {
             },
             valueRange = 0f..255f,
-            colors = SliderDefaults.colors(
-                thumbColor = Color.Red,
-                activeTrackColor = Color.Red,
-            ),
+            colors =
+                SliderDefaults.colors(
+                    thumbColor = Color.Red,
+                    activeTrackColor = Color.Red,
+                ),
         )
         Spacer(modifier = Modifier.size(20.dp))
         Slider(
@@ -158,10 +167,11 @@ private fun ColorContent() {
             onValueChangeFinished = {
             },
             valueRange = 0f..255f,
-            colors = SliderDefaults.colors(
-                thumbColor = Color.Green,
-                activeTrackColor = Color.Green,
-            ),
+            colors =
+                SliderDefaults.colors(
+                    thumbColor = Color.Green,
+                    activeTrackColor = Color.Green,
+                ),
         )
         Spacer(modifier = Modifier.size(20.dp))
         Slider(
@@ -170,10 +180,11 @@ private fun ColorContent() {
             onValueChangeFinished = {
             },
             valueRange = 0f..255f,
-            colors = SliderDefaults.colors(
-                thumbColor = Color.Blue,
-                activeTrackColor = Color.Blue,
-            ),
+            colors =
+                SliderDefaults.colors(
+                    thumbColor = Color.Blue,
+                    activeTrackColor = Color.Blue,
+                ),
         )
         Spacer(modifier = Modifier.weight(1f))
         Button(
@@ -182,13 +193,15 @@ private fun ColorContent() {
             },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp, bottom = 34.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp, bottom = 34.dp),
         ) {
             Text(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 8.dp, bottom = 8.dp),
                 text = "SEND COLOR",
                 color = Color.White,
                 style = MaterialTheme.typography.button,
@@ -197,7 +210,10 @@ private fun ColorContent() {
     }
 }
 
-fun sendImageCommand(colors: String, context: Context) {
+fun sendImageCommand(
+    colors: String,
+    context: Context,
+) {
     context.startService(
         Intent(context, BridgefyService::class.java).apply {
             action = BridgefyService.SDK_SEND_COLOR

@@ -4,22 +4,27 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import me.bridgefy.example.android.alerts.util.ext.mapDistinct
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import me.bridgefy.example.android.alerts.util.ext.mapDistinct
 
 interface DatastorePrefItem<T : Any?> {
     val flow: Flow<T>
+
     suspend fun setValue(value: T)
 
     companion object {
-        fun <T : Any?> create(dataStore: DataStore<Preferences>, preferenceKey: Preferences.Key<T>, defaultValue: T): DatastorePrefItem<T> {
-            return DefaultDatastorePrefItem(dataStore, preferenceKey, defaultValue)
-        }
+        fun <T : Any?> create(
+            dataStore: DataStore<Preferences>,
+            preferenceKey: Preferences.Key<T>,
+            defaultValue: T,
+        ): DatastorePrefItem<T> = DefaultDatastorePrefItem(dataStore, preferenceKey, defaultValue)
 
-        fun <T : Enum<T>> createEnum(dataStore: DataStore<Preferences>, preferenceKey: Preferences.Key<String>, preferenceKeyToEnum: (String?) -> T): DatastorePrefItem<T> {
-            return DatastorePrefEnumItem(dataStore, preferenceKey, preferenceKeyToEnum)
-        }
+        fun <T : Enum<T>> createEnum(
+            dataStore: DataStore<Preferences>,
+            preferenceKey: Preferences.Key<String>,
+            preferenceKeyToEnum: (String?) -> T,
+        ): DatastorePrefItem<T> = DatastorePrefEnumItem(dataStore, preferenceKey, preferenceKeyToEnum)
 
         fun <PREF_T, VALUE_CLASS_T : Any?> createValueClass(
             dataStore: DataStore<Preferences>,
@@ -27,13 +32,14 @@ interface DatastorePrefItem<T : Any?> {
             prefValueToValueClass: (PREF_T) -> VALUE_CLASS_T,
             valueClassToPrefValue: (VALUE_CLASS_T) -> PREF_T?,
             defaultValue: VALUE_CLASS_T,
-        ): DatastorePrefItem<VALUE_CLASS_T> {
-            return DatastorePrefValueClass(dataStore, preferenceKey, prefValueToValueClass, valueClassToPrefValue, defaultValue)
-        }
+        ): DatastorePrefItem<VALUE_CLASS_T> =
+            DatastorePrefValueClass(dataStore, preferenceKey, prefValueToValueClass, valueClassToPrefValue, defaultValue)
 
-        fun <T : Any?> createCustom(dataStore: DataStore<Preferences>, read: (Preferences) -> T, write: (MutablePreferences, T) -> Unit): DatastorePrefItem<T> {
-            return DatastorePrefCustomItem(dataStore, read, write)
-        }
+        fun <T : Any?> createCustom(
+            dataStore: DataStore<Preferences>,
+            read: (Preferences) -> T,
+            write: (MutablePreferences, T) -> Unit,
+        ): DatastorePrefItem<T> = DatastorePrefCustomItem(dataStore, read, write)
     }
 }
 
@@ -43,6 +49,7 @@ class DefaultDatastorePrefItem<T : Any?>(
     private val defaultValue: T,
 ) : DatastorePrefItem<T> {
     override val flow: Flow<T> = dataStore.data.mapDistinct { preferences -> preferences[preferenceKey] ?: defaultValue }
+
     override suspend fun setValue(value: T) {
         dataStore.edit { preferences -> preferences[preferenceKey] = value }
     }
@@ -55,7 +62,12 @@ class DatastorePrefValueClass<PREF_T, VALUE_CLASS_T : Any?>(
     private val valueClassToPrefValue: (VALUE_CLASS_T) -> PREF_T?,
     private val defaultValue: VALUE_CLASS_T,
 ) : DatastorePrefItem<VALUE_CLASS_T> {
-    override val flow: Flow<VALUE_CLASS_T> = dataStore.data.mapDistinct { preferences -> preferences[preferenceKey]?.let { prefValueToValueClass(it) } ?: defaultValue }
+    override val flow: Flow<VALUE_CLASS_T> =
+        dataStore.data.mapDistinct { preferences ->
+            preferences[preferenceKey]?.let { prefValueToValueClass(it) }
+                ?: defaultValue
+        }
+
     override suspend fun setValue(value: VALUE_CLASS_T) {
         dataStore.edit { preferences ->
             if (value == null) {
@@ -73,6 +85,7 @@ class DatastorePrefEnumItem<T : Enum<T>>(
     val preferenceKeyToEnum: (String?) -> T,
 ) : DatastorePrefItem<T> {
     override val flow: Flow<T> = dataStore.data.mapDistinct { preferences -> preferenceKeyToEnum(preferences[preferenceKey]) }
+
     override suspend fun setValue(value: T) {
         dataStore.edit { preferences -> preferences[preferenceKey] = value.toString() }
     }
@@ -83,9 +96,11 @@ class DatastorePrefCustomItem<T : Any?>(
     val read: (Preferences) -> T,
     val write: (MutablePreferences, T) -> Unit,
 ) : DatastorePrefItem<T> {
-    override val flow: Flow<T> = dataStore.data.map { preferences ->
-        read(preferences)
-    }
+    override val flow: Flow<T> =
+        dataStore.data.map { preferences ->
+            read(preferences)
+        }
+
     override suspend fun setValue(value: T) {
         dataStore.edit { preferences ->
             write(preferences, value)

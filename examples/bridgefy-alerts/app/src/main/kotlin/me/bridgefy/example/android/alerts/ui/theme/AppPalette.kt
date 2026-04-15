@@ -73,8 +73,8 @@ object AppPalette {
 
     val seed = Color(0xFFBA1A20)
 
-    fun lightColors(): AppColors {
-        return AppColors(
+    fun lightColors(): AppColors =
+        AppColors(
             primary = md_theme_light_primary,
             onPrimary = md_theme_light_onPrimary,
             primaryContainer = md_theme_light_primaryContainer,
@@ -105,10 +105,9 @@ object AppPalette {
             outlineVariant = md_theme_light_outlineVariant,
             scrim = md_theme_light_scrim,
         )
-    }
 
-    fun darkColors(): AppColors {
-        return AppColors(
+    fun darkColors(): AppColors =
+        AppColors(
             primary = md_theme_dark_primary,
             onPrimary = md_theme_dark_onPrimary,
             primaryContainer = md_theme_dark_primaryContainer,
@@ -139,5 +138,4 @@ object AppPalette {
             outlineVariant = md_theme_dark_outlineVariant,
             scrim = md_theme_dark_scrim,
         )
-    }
 }

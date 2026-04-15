@@ -15,25 +15,27 @@ import javax.inject.Singleton
 
 @Singleton
 class UserPreferenceDataSource
-@Inject constructor(
-    private val application: Application,
-) {
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-        name = "user",
-        corruptionHandler = ReplaceFileCorruptionHandler {
-            Timber.e(it, "UserPreferenceDataSource Corrupted... recreating...")
-            emptyPreferences()
-        },
-    )
+    @Inject
+    constructor(
+        private val application: Application,
+    ) {
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+            name = "user",
+            corruptionHandler =
+                ReplaceFileCorruptionHandler {
+                    Timber.e(it, "UserPreferenceDataSource Corrupted... recreating...")
+                    emptyPreferences()
+                },
+        )
 
-    val directorySortByLastNamePref: DatastorePrefItem<Boolean> =
-        DatastorePrefItem.create(application.dataStore, Keys.DIRECTORY_SORT, true)
+        val directorySortByLastNamePref: DatastorePrefItem<Boolean> =
+            DatastorePrefItem.create(application.dataStore, Keys.DIRECTORY_SORT, true)
 
-    suspend fun clearAll() {
-        application.dataStore.edit { it.clear() }
+        suspend fun clearAll() {
+            application.dataStore.edit { it.clear() }
+        }
+
+        private object Keys {
+            val DIRECTORY_SORT = booleanPreferencesKey("directorySort")
+        }
     }
-
-    private object Keys {
-        val DIRECTORY_SORT = booleanPreferencesKey("directorySort")
-    }
-}

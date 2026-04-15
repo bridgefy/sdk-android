@@ -151,18 +151,20 @@ internal fun ChatLayout(
         content = content,
     ) { measurables: List<Measurable>, constraints: Constraints ->
 
-        val placeables: List<Placeable> = measurables.map { measurable ->
-            measurable.measure(constraints.copy(minWidth = 0))
-        }
+        val placeables: List<Placeable> =
+            measurables.map { measurable ->
+                measurable.measure(constraints.copy(minWidth = 0))
+            }
 
         require(placeables.size in 1..2)
 
         val message = placeables.first()
-        val status = if (placeables.size > 1) {
-            placeables.last()
-        } else {
-            null
-        }
+        val status =
+            if (placeables.size > 1) {
+                placeables.last()
+            } else {
+                null
+            }
 
         chatRowData.parentWidth = constraints.maxWidth
         calculateChatWidthAndHeight(chatRowData, message, status)

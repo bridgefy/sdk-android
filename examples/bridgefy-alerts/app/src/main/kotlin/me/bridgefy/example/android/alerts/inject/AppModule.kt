@@ -11,21 +11,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
     @Provides
     @Singleton
-    fun provideJson(): Json {
-        return Json {
+    fun provideJson(): Json =
+        Json {
             ignoreUnknownKeys = true
             allowSpecialFloatingPointValues = true
             useArrayPolymorphism = true
             explicitNulls = false
         }
-    }
 
     @Provides
     @Singleton
-    fun provideFilesystem(): FileSystem {
-        return FileSystem.SYSTEM
-    }
+    fun provideFilesystem(): FileSystem = FileSystem.SYSTEM
 }

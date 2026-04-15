@@ -35,9 +35,7 @@ import me.bridgefy.example.android.alerts.ux.MainAppScaffoldWithNavBar
 import me.bridgefy.example.android.alerts.ux.home.HomeScreenRoute
 
 @Composable
-fun SendImageScreen(
-    navController: NavController,
-) {
+fun SendImageScreen(navController: NavController) {
     MainAppScaffoldWithNavBar(
         title = "Amin Panel",
         hideNavigation = false,
@@ -58,19 +56,21 @@ fun SendImageScreen(
 fun ImageCommandView(image: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Image(
             painter = painterResource(id = if (image == "0") R.drawable.img_map else R.drawable.img_tips),
             contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .fillMaxSize(),
             contentScale = ContentScale.Fit,
         )
     }
@@ -93,20 +93,21 @@ private fun ImageScreenContent() {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Text(
             text = "Tap a button to send an image",
             modifier = Modifier.padding(bottom = 10.dp, top = 10.dp),
         )
 
-        Row() {
+        Row {
             OutlinedButton(
                 border = BorderStroke(1.dp, Color.Red),
                 onClick = {
@@ -115,9 +116,10 @@ private fun ImageScreenContent() {
                     sendImageCommand("0", context)
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = mapButtonColor),
-                modifier = Modifier
-                    .width(100.dp)
-                    .padding(top = 30.dp, bottom = 34.dp),
+                modifier =
+                    Modifier
+                        .width(100.dp)
+                        .padding(top = 30.dp, bottom = 34.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Text(
@@ -138,9 +140,10 @@ private fun ImageScreenContent() {
                 },
                 border = BorderStroke(1.dp, Color.Red),
                 colors = ButtonDefaults.buttonColors(backgroundColor = tipsButtonColor),
-                modifier = Modifier
-                    .width(100.dp)
-                    .padding(top = 30.dp, bottom = 34.dp),
+                modifier =
+                    Modifier
+                        .width(100.dp)
+                        .padding(top = 30.dp, bottom = 34.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Text(
@@ -155,14 +158,18 @@ private fun ImageScreenContent() {
         Image(
             painter = painterResource(id = if (mapSelected || tipsSelected) imageSource else R.drawable.bridgefy_complete_logo),
             contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .fillMaxSize(),
             contentScale = ContentScale.Fit,
         )
     }
 }
 
-fun sendImageCommand(image: String, context: Context) {
+fun sendImageCommand(
+    image: String,
+    context: Context,
+) {
     context.startService(
         Intent(context, BridgefyService::class.java).apply {
             action = BridgefyService.SDK_SEND_IMAGE

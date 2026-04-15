@@ -69,9 +69,10 @@ fun <T> MultiSelectDialog(
                 // Items
                 val height = LocalConfiguration.current.screenHeightDp * .50 // don't take the full screen
                 LazyColumn(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .heightIn(0.dp, height.dp),
+                    modifier =
+                        Modifier
+                            .padding(top = 16.dp)
+                            .heightIn(0.dp, height.dp),
                 ) {
                     items(allItems) {
                         val selected = savedSelectedItems.contains(it.item)
@@ -89,9 +90,10 @@ fun <T> MultiSelectDialog(
                 // Buttons
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
                 ) {
                     val dismissButtonTextString = dismissButtonText()
                     if (onDismissButtonClicked != null && dismissButtonTextString != null) {
@@ -150,20 +152,19 @@ private fun <T> MultiSelectDialogItem(
 }
 
 @Composable
-fun <T> MultiSelectDialog(
-    dialogUiState: MultiSelectDialogUiState<T>,
-) {
+fun <T> MultiSelectDialog(dialogUiState: MultiSelectDialogUiState<T>) {
     MultiSelectDialog(
         allItems = dialogUiState.allItems,
         selectedItems = dialogUiState.selectedItems,
         title = dialogUiState.title,
         onConfirmButtonClicked = { dialogUiState.onConfirm?.invoke(it) },
         onDismissRequest = { dialogUiState.onDismissRequest() },
-        onDismissButtonClicked = if (dialogUiState.onDismiss != null) {
-            { dialogUiState.onDismiss.invoke() }
-        } else {
-            null
-        },
+        onDismissButtonClicked =
+            if (dialogUiState.onDismiss != null) {
+                { dialogUiState.onDismiss.invoke() }
+            } else {
+                null
+            },
         confirmButtonText = dialogUiState.confirmButtonText,
         dismissButtonText = dialogUiState.dismissButtonText,
     )
@@ -180,16 +181,20 @@ data class MultiSelectDialogUiState<T>(
     override val onDismissRequest: () -> Unit = {},
 ) : DialogUiState<List<T>>
 
-data class MultiSelectDataItem<T>(val item: T, val text: @Composable () -> String)
+data class MultiSelectDataItem<T>(
+    val item: T,
+    val text: @Composable () -> String,
+)
 
 @PreviewDefault
 @Composable
 private fun PreviewMultiSelectDialog() {
-    val items = listOf(
-        MultiSelectDataItem("id1") { "A" },
-        MultiSelectDataItem("id2") { "B" },
-        MultiSelectDataItem("id3") { "C" },
-    )
+    val items =
+        listOf(
+            MultiSelectDataItem("id1") { "A" },
+            MultiSelectDataItem("id2") { "B" },
+            MultiSelectDataItem("id3") { "C" },
+        )
 
     val selectedItems = listOf("id2", "id3")
 

@@ -44,9 +44,7 @@ import me.bridgefy.example.android.alerts.ux.home.HomeScreenRoute
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun SendFlashScreen(
-    navController: NavController,
-) {
+fun SendFlashScreen(navController: NavController) {
     MainAppScaffoldWithNavBar(
         title = "Amin Panel",
         hideNavigation = false,
@@ -68,13 +66,14 @@ private fun FlashLightContent() {
     val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         val scope = rememberCoroutineScope()
         var ticks by remember { mutableIntStateOf(0) }
@@ -102,13 +101,15 @@ private fun FlashLightContent() {
             },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp, bottom = 34.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp, bottom = 34.dp),
         ) {
             Text(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 8.dp, bottom = 8.dp),
                 text = if (ticks == 0 || ticks > 15) "TURN ON FLASHLIGHT" else "Wait ${15 - ticks} seconds",
                 color = Color.White,
                 style = MaterialTheme.typography.button,
@@ -119,17 +120,21 @@ private fun FlashLightContent() {
 
 @SuppressLint("NewApi")
 @Composable
-fun FlashCommandView(scope: CoroutineScope, context: Context) {
+fun FlashCommandView(
+    scope: CoroutineScope,
+    context: Context,
+) {
     var showImage by remember { mutableStateOf(false) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         LaunchedEffect(key1 = Unit) {
             scope.launch {
@@ -158,8 +163,9 @@ fun FlashCommandView(scope: CoroutineScope, context: Context) {
             Image(
                 painter = painterResource(id = R.drawable.ic_flashlight),
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier =
+                    Modifier
+                        .fillMaxSize(),
                 contentScale = ContentScale.Fit,
             )
         }

@@ -122,7 +122,14 @@ fun DayNightPasswordTextField(
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                 Icon(
                     imageVector = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                    contentDescription = if (passwordVisible) stringResource(R.string.hide_password) else stringResource(R.string.show_password),
+                    contentDescription =
+                        if (passwordVisible) {
+                            stringResource(
+                                R.string.hide_password,
+                            )
+                        } else {
+                            stringResource(R.string.show_password)
+                        },
                 )
             }
         },
@@ -151,11 +158,12 @@ fun PreviewDayNightPasswordTextField() {
                 label = { Text(text = "Password") },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(onDone = { }),
-                modifier = Modifier
+                modifier =
+                    Modifier
 //                    .onPreviewKeyEvent { formKeyEventHandler(it, focusManager) }
-                    .fillMaxWidth()
+                        .fillMaxWidth()
 //                    .padding(paddingValues)
-                    .testTag("password"),
+                        .testTag("password"),
             )
         }
     }

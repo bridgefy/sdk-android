@@ -25,15 +25,17 @@ fun TextWithTitle(
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .padding(top = 8.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 8.dp),
             )
         }
         Text(
             text = text,
             style = textStyle,
-            modifier = Modifier
-                .padding(top = if (label != null) 4.dp else 8.dp, bottom = 8.dp),
+            modifier =
+                Modifier
+                    .padding(top = if (label != null) 4.dp else 8.dp, bottom = 8.dp),
         )
     }
 }

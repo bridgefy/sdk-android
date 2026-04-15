@@ -13,22 +13,29 @@ import kotlinx.coroutines.flow.stateIn
 /**
  * Invokes [stateIn] with the recommended settings
  */
-fun <T> Flow<T>.stateInDefault(coroutineScope: CoroutineScope, initialValue: T): StateFlow<T> = this.stateIn(
-    scope = coroutineScope,
-    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-    initialValue = initialValue,
-)
+fun <T> Flow<T>.stateInDefault(
+    coroutineScope: CoroutineScope,
+    initialValue: T,
+): StateFlow<T> =
+    this.stateIn(
+        scope = coroutineScope,
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+        initialValue = initialValue,
+    )
 
 /**
  * Invokes [shareIn] with the recommended settings
  */
-fun <T> Flow<T>.shareInDefaults(coroutineScope: CoroutineScope): SharedFlow<T> = this.shareIn(
-    coroutineScope,
-    SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-    replay = 1,
-)
+fun <T> Flow<T>.shareInDefaults(coroutineScope: CoroutineScope): SharedFlow<T> =
+    this.shareIn(
+        coroutineScope,
+        SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+        replay = 1,
+    )
 
 /**
  * Applies a [map] transform to a flow, only emitting new values when the value is distinct.
  */
-inline fun <T, R> Flow<T>.mapDistinct(@BuilderInference crossinline transform: suspend (value: T) -> R) = this.map(transform).distinctUntilChanged()
+inline fun <T, R> Flow<T>.mapDistinct(
+    @BuilderInference crossinline transform: suspend (value: T) -> R,
+) = this.map(transform).distinctUntilChanged()

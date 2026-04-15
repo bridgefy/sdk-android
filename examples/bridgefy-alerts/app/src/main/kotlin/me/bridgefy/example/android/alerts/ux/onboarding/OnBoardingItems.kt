@@ -9,8 +9,8 @@ class OnBoardingItems(
     val warningResource: Int?,
 ) {
     companion object {
-        fun getData(): List<OnBoardingItems> {
-            return listOf(
+        fun getData(): List<OnBoardingItems> =
+            listOf(
                 OnBoardingItems(
                     R.drawable.ic_launcher_foreground,
                     R.string.on_boarding_title_1,
@@ -30,6 +30,5 @@ class OnBoardingItems(
                     null,
                 ),
             )
-        }
     }
 }

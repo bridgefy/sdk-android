@@ -37,18 +37,19 @@ fun ReceivedMessageRow(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 8.dp, end = 60.dp, top = 2.dp, bottom = 2.dp),
-
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 8.dp, end = 60.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.White)
-                .clickable { },
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color.White)
+                    .clickable { },
             content = {
                 if (contactName != null) {
                     RecipientName(
@@ -60,21 +61,23 @@ fun ReceivedMessageRow(
 
                 if (quotedMessage != null || quotedImage != null) {
                     QuotedMessage(
-                        modifier = Modifier
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                            .height(IntrinsicSize.Min)
-                            .background(Color(0xff757575), shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable {
-                            },
+                        modifier =
+                            Modifier
+                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                .height(IntrinsicSize.Min)
+                                .background(Color(0xff757575), shape = RoundedCornerShape(8.dp))
+                                .clip(shape = RoundedCornerShape(8.dp))
+                                .clickable {
+                                },
                         quotedMessage = quotedMessage,
                         quotedImage = quotedImage,
                     )
                 }
 
                 ChatFlexBoxLayout(
-                    modifier = Modifier
-                        .padding(start = 2.dp, top = 2.dp, end = 4.dp, bottom = 2.dp),
+                    modifier =
+                        Modifier
+                            .padding(start = 2.dp, top = 2.dp, end = 4.dp, bottom = 2.dp),
                     text = text,
                     messageStat = {
                         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -101,18 +104,19 @@ fun ReceivedMessageRowAlt1(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 8.dp, end = 60.dp, top = 2.dp, bottom = 2.dp),
-
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 8.dp, end = 60.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.White)
-                .clickable { },
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color.White)
+                    .clickable { },
             content = {
                 RecipientName(
                     name = contactName,
@@ -122,21 +126,23 @@ fun ReceivedMessageRowAlt1(
 
                 if (quotedMessage != null || quotedImage != null) {
                     QuotedMessageWithConstraintLayout(
-                        modifier = Modifier
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                            .height(IntrinsicSize.Min)
-                            .background(Color(0xff757575), shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable {
-                            },
+                        modifier =
+                            Modifier
+                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                .height(IntrinsicSize.Min)
+                                .background(Color(0xff757575), shape = RoundedCornerShape(8.dp))
+                                .clip(shape = RoundedCornerShape(8.dp))
+                                .clickable {
+                                },
                         quotedMessage = quotedMessage,
                         quotedImage = quotedImage,
                     )
                 }
 
                 ChatFlexBoxLayout(
-                    modifier = Modifier
-                        .padding(start = 2.dp, top = 2.dp, end = 4.dp, bottom = 2.dp),
+                    modifier =
+                        Modifier
+                            .padding(start = 2.dp, top = 2.dp, end = 4.dp, bottom = 2.dp),
                     text = text,
                     messageStat = {
                         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -163,18 +169,19 @@ fun ReceivedMessageRowAlt2(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 8.dp, end = 60.dp, top = 2.dp, bottom = 2.dp),
-
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 8.dp, end = 60.dp, top = 2.dp, bottom = 2.dp),
     ) {
         SubcomposeColumn(
-            modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.White)
-                .clickable { },
+            modifier =
+                Modifier
+                    .shadow(1.dp, RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color.White)
+                    .clickable { },
             mainContent = {
                 Column {
                     RecipientName(
@@ -185,12 +192,13 @@ fun ReceivedMessageRowAlt2(
 
                     if (quotedMessage != null || quotedImage != null) {
                         QuotedMessage(
-                            modifier = Modifier
-                                .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-                                .height(IntrinsicSize.Min)
-                                .background(Color(0xff757575), shape = RoundedCornerShape(8.dp))
-                                .clip(shape = RoundedCornerShape(8.dp))
-                                .clickable {},
+                            modifier =
+                                Modifier
+                                    .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+                                    .height(IntrinsicSize.Min)
+                                    .background(Color(0xff757575), shape = RoundedCornerShape(8.dp))
+                                    .clip(shape = RoundedCornerShape(8.dp))
+                                    .clickable {},
                             quotedMessage = quotedMessage,
                             quotedImage = quotedImage,
                         )
@@ -199,8 +207,9 @@ fun ReceivedMessageRowAlt2(
             },
             dependentContent = {
                 ChatFlexBoxLayout(
-                    modifier = Modifier
-                        .padding(start = 2.dp, top = 2.dp, end = 4.dp, bottom = 2.dp),
+                    modifier =
+                        Modifier
+                            .padding(start = 2.dp, top = 2.dp, end = 4.dp, bottom = 2.dp),
                     text = text,
                     messageStat = {
                         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {

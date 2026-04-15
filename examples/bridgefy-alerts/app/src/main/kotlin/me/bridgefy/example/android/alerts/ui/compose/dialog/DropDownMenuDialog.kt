@@ -78,9 +78,10 @@ fun <T> DropDownMenuDialog(
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 ) {
                     val labelText = label()
                     DayNightTextField(
@@ -88,17 +89,23 @@ fun <T> DropDownMenuDialog(
                         readOnly = true,
                         value = optionToText(selectedOptionTextFieldValue),
                         onValueChange = { },
-                        label = if (labelText != null) { { Text(labelText) } } else null,
+                        label =
+                            if (labelText != null) {
+                                { Text(labelText) }
+                            } else {
+                                null
+                            },
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(
                                 expanded = expanded,
                             )
                         },
-                        modifier = Modifier
-                            // As of Material3 1.0.0-beta03; The `menuAnchor` modifier must be passed to the text field for correctness.
-                            // (https://android-review.googlesource.com/c/platform/frameworks/support/+/2200861)
-                            .menuAnchor()
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                // As of Material3 1.0.0-beta03; The `menuAnchor` modifier must be passed to the text field for correctness.
+                                // (https://android-review.googlesource.com/c/platform/frameworks/support/+/2200861)
+                                .menuAnchor()
+                                .fillMaxWidth(),
                     )
                     ExposedDropdownMenu(
                         expanded = expanded,
@@ -120,9 +127,10 @@ fun <T> DropDownMenuDialog(
                 // Buttons
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
                 ) {
                     if (onDismissButtonClicked != null) {
                         TextButton(
@@ -149,9 +157,7 @@ fun <T> DropDownMenuDialog(
 }
 
 @Composable
-fun <T> DropDownMenuDialog(
-    dialogUiState: DropDownMenuDialogUiState<T>,
-) {
+fun <T> DropDownMenuDialog(dialogUiState: DropDownMenuDialogUiState<T>) {
     DropDownMenuDialog(
         title = dialogUiState.title,
         text = dialogUiState.text,

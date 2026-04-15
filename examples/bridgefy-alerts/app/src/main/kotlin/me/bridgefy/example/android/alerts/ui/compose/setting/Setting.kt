@@ -27,10 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.bridgefy.example.android.alerts.ui.compose.PreviewDefault
-import me.bridgefy.example.android.alerts.ui.theme.AppTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import me.bridgefy.example.android.alerts.ui.compose.PreviewDefault
+import me.bridgefy.example.android.alerts.ui.theme.AppTheme
 import kotlin.math.roundToInt
 
 object Setting {
@@ -54,17 +54,19 @@ object Setting {
         onClickBody: ((Boolean) -> Unit)? = null,
     ) {
         ListItem(
-            modifier = modifier
-                .toggleable(checked, onValueChange = { onClickBody?.invoke(it) }, role = Role.Switch),
+            modifier =
+                modifier
+                    .toggleable(checked, onValueChange = { onClickBody?.invoke(it) }, role = Role.Switch),
             leadingContent = icon,
             headlineContent = {
                 Text(text)
             },
-            supportingContent = if (!secondaryText.isNullOrBlank()) {
-                { Text(secondaryText) }
-            } else {
-                null
-            },
+            supportingContent =
+                if (!secondaryText.isNullOrBlank()) {
+                    { Text(secondaryText) }
+                } else {
+                    null
+                },
             trailingContent = {
                 Switch(
                     checked = checked,
@@ -86,17 +88,19 @@ object Setting {
         val currentValueChecked by currentCheckedValueFlow.collectAsStateWithLifecycle()
 
         ListItem(
-            modifier = modifier
-                .toggleable(currentValueChecked, onValueChange = { onClickBody?.invoke(it) }, role = Role.Switch),
+            modifier =
+                modifier
+                    .toggleable(currentValueChecked, onValueChange = { onClickBody?.invoke(it) }, role = Role.Switch),
             leadingContent = icon,
             headlineContent = {
                 Text(text)
             },
-            supportingContent = if (!secondaryText.isNullOrBlank()) {
-                { Text(secondaryText) }
-            } else {
-                null
-            },
+            supportingContent =
+                if (!secondaryText.isNullOrBlank()) {
+                    { Text(secondaryText) }
+                } else {
+                    null
+                },
             trailingContent = {
                 Switch(
                     checked = currentValueChecked,
@@ -114,17 +118,19 @@ object Setting {
         onClickBody: (() -> Unit)? = null,
     ) {
         ListItem(
-            modifier = Modifier
-                .clickable { onClickBody?.invoke() },
+            modifier =
+                Modifier
+                    .clickable { onClickBody?.invoke() },
             leadingContent = icon,
             headlineContent = {
                 Text(text)
             },
-            supportingContent = if (!secondaryText.isNullOrBlank()) {
-                { Text(secondaryText) }
-            } else {
-                null
-            },
+            supportingContent =
+                if (!secondaryText.isNullOrBlank()) {
+                    { Text(secondaryText) }
+                } else {
+                    null
+                },
         )
     }
 
@@ -165,8 +171,7 @@ object Setting {
                         .sizeIn(
                             minWidth = 56.dp,
                             minHeight = 64.dp,
-                        )
-                        .padding(
+                        ).padding(
                             start = 16.dp,
                             top = 16.dp,
                             bottom = 16.dp,
@@ -193,9 +198,10 @@ object Setting {
                         valueRange = range,
                         steps = steps,
                         onValueChangeFinished = { onValueChangeFinished(sliderPosition) },
-                        modifier = Modifier
-                            .weight(1f)
-                            .align(Alignment.CenterVertically),
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .align(Alignment.CenterVertically),
                     )
                     Text(
                         text = "${value}x",

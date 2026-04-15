@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.bridgefy.example.android.alerts.ui.compose.DayNightTextField
 import kotlinx.coroutines.flow.StateFlow
+import me.bridgefy.example.android.alerts.ui.compose.DayNightTextField
 
 @Composable
 fun <T> DropdownMenuBoxField(
@@ -34,12 +34,18 @@ fun <T> DropdownMenuBoxField(
             readOnly = true,
             value = optionToText(selectedOption),
             onValueChange = {},
-            label = if (label != null) { { Text(text = label) } } else null,
+            label =
+                if (label != null) {
+                    { Text(text = label) }
+                } else {
+                    null
+                },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = modifier
-                // As of Material3 1.0.0-beta03; The `menuAnchor` modifier must be passed to the text field for correctness.
-                // (https://android-review.googlesource.com/c/platform/frameworks/support/+/2200861)
-                .menuAnchor(),
+            modifier =
+                modifier
+                    // As of Material3 1.0.0-beta03; The `menuAnchor` modifier must be passed to the text field for correctness.
+                    // (https://android-review.googlesource.com/c/platform/frameworks/support/+/2200861)
+                    .menuAnchor(),
         )
         ExposedDropdownMenu(
             expanded = expanded,

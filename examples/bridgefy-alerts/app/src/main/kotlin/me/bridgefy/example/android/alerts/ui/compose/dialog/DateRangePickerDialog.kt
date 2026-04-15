@@ -26,16 +26,25 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 
 @Composable
-fun DateRangePickerDialog(
-    dialogUiState: DateRangePickerDialogUiState,
-) {
-    val initialStartMs: Long? = dialogUiState.startLocalDate?.atStartOfDay()?.atOffset(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
-    val initialEndMs: Long? = dialogUiState.endLocalDate?.atStartOfDay()?.atOffset(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
-    val dateRangePickerState = rememberDateRangePickerState(
-        initialSelectedStartDateMillis = initialStartMs,
-        initialSelectedEndDateMillis = initialEndMs,
-        initialDisplayMode = dialogUiState.initialDisplayMode,
-    )
+fun DateRangePickerDialog(dialogUiState: DateRangePickerDialogUiState) {
+    val initialStartMs: Long? =
+        dialogUiState.startLocalDate
+            ?.atStartOfDay()
+            ?.atOffset(ZoneOffset.UTC)
+            ?.toInstant()
+            ?.toEpochMilli()
+    val initialEndMs: Long? =
+        dialogUiState.endLocalDate
+            ?.atStartOfDay()
+            ?.atOffset(ZoneOffset.UTC)
+            ?.toInstant()
+            ?.toEpochMilli()
+    val dateRangePickerState =
+        rememberDateRangePickerState(
+            initialSelectedStartDateMillis = initialStartMs,
+            initialSelectedEndDateMillis = initialEndMs,
+            initialDisplayMode = dialogUiState.initialDisplayMode,
+        )
     val onDismissButtonClicked = dialogUiState.onDismiss
 
     DatePickerDialog(
@@ -46,10 +55,11 @@ fun DateRangePickerDialog(
                     val startMs = dateRangePickerState.selectedStartDateMillis
                     val endMs = dateRangePickerState.selectedEndDateMillis
                     if (startMs != null && endMs != null) {
-                        val dateRange = PickerDateRange(
-                            startDate = Instant.ofEpochMilli(startMs).atZone(ZoneId.of("UTC")).toLocalDate(),
-                            endDate = Instant.ofEpochMilli(endMs).atZone(ZoneId.of("UTC")).toLocalDate(),
-                        )
+                        val dateRange =
+                            PickerDateRange(
+                                startDate = Instant.ofEpochMilli(startMs).atZone(ZoneId.of("UTC")).toLocalDate(),
+                                endDate = Instant.ofEpochMilli(endMs).atZone(ZoneId.of("UTC")).toLocalDate(),
+                            )
 
                         dialogUiState.onConfirm(dateRange)
                     }
@@ -58,33 +68,36 @@ fun DateRangePickerDialog(
                 Text(dialogUiState.confirmButtonText())
             }
         },
-        dismissButton = if (onDismissButtonClicked != null) { {
-            TextButton(
-                onClick = onDismissButtonClicked,
-            ) {
-                Text(dialogUiState.dismissButtonText())
-            }
-        }
-        } else {
-            null
-        },
+        dismissButton =
+            if (onDismissButtonClicked != null) {
+                {
+                    TextButton(
+                        onClick = onDismissButtonClicked,
+                    ) {
+                        Text(dialogUiState.dismissButtonText())
+                    }
+                }
+            } else {
+                null
+            },
     ) {
         val dateFormatter = remember { DatePickerDefaults.dateFormatter() }
         DateRangePicker(
             dateFormatter = dateFormatter,
-            title = if (dialogUiState.title != null) {
-                dialogUiState.title
-            } else {
-                {
-                    Column {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        DateRangePickerDefaults.DateRangePickerTitle(
-                            displayMode = dateRangePickerState.displayMode,
-                            modifier = Modifier.padding(PaddingValues(start = 64.dp, end = 12.dp)),
-                        )
+            title =
+                if (dialogUiState.title != null) {
+                    dialogUiState.title
+                } else {
+                    {
+                        Column {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DateRangePickerDefaults.DateRangePickerTitle(
+                                displayMode = dateRangePickerState.displayMode,
+                                modifier = Modifier.padding(PaddingValues(start = 64.dp, end = 12.dp)),
+                            )
+                        }
                     }
-                }
-            },
+                },
             headline = {
                 DateRangePickerDefaults.DateRangePickerHeadline(
                     selectedStartDateMillis = dateRangePickerState.selectedStartDateMillis,
@@ -92,13 +105,13 @@ fun DateRangePickerDialog(
                     displayMode = dateRangePickerState.displayMode,
                     dateFormatter,
                     modifier =
-                    Modifier.padding(
-                        PaddingValues(
-                            start = 64.dp,
-                            end = 12.dp,
-                            bottom = 12.dp,
+                        Modifier.padding(
+                            PaddingValues(
+                                start = 64.dp,
+                                end = 12.dp,
+                                bottom = 12.dp,
+                            ),
                         ),
-                    ),
                 )
             },
             state = dateRangePickerState,
@@ -136,4 +149,7 @@ data class DateRangePickerDialogUiState(
     val dismissButtonText: @Composable () -> String = { stringResource(android.R.string.cancel) },
 ) : DialogUiState<PickerDateRange>
 
-data class PickerDateRange(val startDate: LocalDate?, val endDate: LocalDate?)
+data class PickerDateRange(
+    val startDate: LocalDate?,
+    val endDate: LocalDate?,
+)

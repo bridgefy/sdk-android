@@ -1,8 +1,8 @@
 package me.bridgefy.example.android.alerts.ux.chat
 
-import me.bridgefy.example.android.alerts.model.db.main.messages.MessageEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import me.bridgefy.example.android.alerts.model.db.main.messages.MessageEntity
 
 data class ChatUiState(
     // Data

@@ -27,16 +27,18 @@ fun MessageDialog(
 
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
-        title = if (titleString != null) {
-            { Text(titleString, style = MaterialTheme.typography.headlineSmall) }
-        } else {
-            null
-        },
-        text = if (textString != null) {
-            { Text(textString, style = MaterialTheme.typography.bodyMedium) }
-        } else {
-            null
-        },
+        title =
+            if (titleString != null) {
+                { Text(titleString, style = MaterialTheme.typography.headlineSmall) }
+            } else {
+                null
+            },
+        text =
+            if (textString != null) {
+                { Text(textString, style = MaterialTheme.typography.bodyMedium) }
+            } else {
+                null
+            },
         icon = icon,
         confirmButton = {
             val confirmButtonTextString = confirmButtonText()
@@ -66,16 +68,19 @@ fun MessageDialog(
 }
 
 @Composable
-fun MessageDialog(
-    dialogUiState: MessageDialogUiState,
-) {
+fun MessageDialog(dialogUiState: MessageDialogUiState) {
     MessageDialog(
         onDismissRequest = dialogUiState.onDismissRequest,
         title = dialogUiState.title,
         text = dialogUiState.text,
         icon = dialogUiState.icon,
         confirmButtonText = dialogUiState.confirmButtonText,
-        onConfirmButtonClicked = if (dialogUiState.onConfirm != null) { { dialogUiState.onConfirm.invoke(Unit) } } else null,
+        onConfirmButtonClicked =
+            if (dialogUiState.onConfirm != null) {
+                { dialogUiState.onConfirm.invoke(Unit) }
+            } else {
+                null
+            },
         dismissButtonText = dialogUiState.dismissButtonText,
         onDismissButtonClicked = dialogUiState.onDismiss,
     )

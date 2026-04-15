@@ -8,9 +8,9 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.StateFlow
 import me.bridgefy.example.android.alerts.ui.compose.DayNightTextField
 import me.bridgefy.example.android.alerts.ui.compose.util.formKeyEventHandler
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun TextFieldDataTextField(
@@ -30,8 +30,9 @@ fun TextFieldDataTextField(
         singleLine = true,
         isError = textFieldValue.isError,
         supportingText = textFieldValue.supportingText?.let { { Text(it) } },
-        modifier = modifier
-            .onPreviewKeyEvent { formKeyEventHandler(it, focusManager) }
-            .testTag(testTag),
+        modifier =
+            modifier
+                .onPreviewKeyEvent { formKeyEventHandler(it, focusManager) }
+                .testTag(testTag),
     )
 }

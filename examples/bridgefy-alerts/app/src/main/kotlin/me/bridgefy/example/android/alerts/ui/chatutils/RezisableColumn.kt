@@ -17,9 +17,10 @@ fun SubcomposeColumn(
 
         var recompositionIndex = 0
 
-        var placeables: List<Placeable> = subcompose(recompositionIndex++, content).map {
-            it.measure(constraints)
-        }
+        var placeables: List<Placeable> =
+            subcompose(recompositionIndex++, content).map {
+                it.measure(constraints)
+            }
 
         val columnSize =
             placeables.fold(IntSize.Zero) { currentMax: IntSize, placeable: Placeable ->
@@ -30,9 +31,10 @@ fun SubcomposeColumn(
             }
 
         if (placeables.isNotEmpty() && placeables.size > 1) {
-            placeables = subcompose(recompositionIndex, content).map { measurable: Measurable ->
-                measurable.measure(Constraints(columnSize.width, constraints.maxWidth))
-            }
+            placeables =
+                subcompose(recompositionIndex, content).map { measurable: Measurable ->
+                    measurable.measure(Constraints(columnSize.width, constraints.maxWidth))
+                }
         }
 
         layout(columnSize.width, columnSize.height) {
@@ -55,9 +57,10 @@ fun SubcomposeColumn(
 
         var recompositionIndex = 0
 
-        var mainPlaceables: List<Placeable> = subcompose(recompositionIndex++, mainContent).map {
-            it.measure(constraints)
-        }
+        var mainPlaceables: List<Placeable> =
+            subcompose(recompositionIndex++, mainContent).map {
+                it.measure(constraints)
+            }
 
         var columnSize =
             mainPlaceables.fold(IntSize.Zero) { currentMax: IntSize, placeable: Placeable ->
@@ -67,32 +70,37 @@ fun SubcomposeColumn(
                 )
             }
 
-        val dependentMeasurables: List<Measurable> = subcompose(recompositionIndex++) {
-            dependentContent(columnSize)
-        }
-
-        val dependentPlaceables: List<Placeable> = dependentMeasurables
-            .map { measurable: Measurable ->
-                measurable.measure(Constraints(columnSize.width, constraints.maxWidth))
+        val dependentMeasurables: List<Measurable> =
+            subcompose(recompositionIndex++) {
+                dependentContent(columnSize)
             }
 
-        val maxWidth = if (!dependentPlaceables.isEmpty()) {
-            dependentPlaceables.maxOf { it.width }
-        } else {
-            columnSize.width
-        }
+        val dependentPlaceables: List<Placeable> =
+            dependentMeasurables
+                .map { measurable: Measurable ->
+                    measurable.measure(Constraints(columnSize.width, constraints.maxWidth))
+                }
+
+        val maxWidth =
+            if (!dependentPlaceables.isEmpty()) {
+                dependentPlaceables.maxOf { it.width }
+            } else {
+                columnSize.width
+            }
 
         if (mainPlaceables.isNotEmpty() && maxWidth > columnSize.width) {
-            mainPlaceables = subcompose(recompositionIndex, mainContent).map {
-                it.measure(Constraints(maxWidth, constraints.maxWidth))
-            }
+            mainPlaceables =
+                subcompose(recompositionIndex, mainContent).map {
+                    it.measure(Constraints(maxWidth, constraints.maxWidth))
+                }
         }
 
         if (dependentPlaceables.isNotEmpty()) {
-            columnSize = IntSize(
-                columnSize.width.coerceAtLeast(maxWidth),
-                columnSize.height + dependentPlaceables.sumOf { it.height },
-            )
+            columnSize =
+                IntSize(
+                    columnSize.width.coerceAtLeast(maxWidth),
+                    columnSize.height + dependentPlaceables.sumOf { it.height },
+                )
         }
 
         layout(columnSize.width, columnSize.height) {

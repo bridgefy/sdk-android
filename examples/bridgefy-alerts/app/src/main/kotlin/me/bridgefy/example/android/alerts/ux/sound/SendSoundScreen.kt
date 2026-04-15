@@ -43,9 +43,7 @@ import me.bridgefy.example.android.alerts.ux.home.HomeScreenRoute
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun SendSoundScreen(
-    navController: NavController,
-) {
+fun SendSoundScreen(navController: NavController) {
     MainAppScaffoldWithNavBar(
         title = "Amin Panel",
         hideNavigation = false,
@@ -64,17 +62,21 @@ fun SendSoundScreen(
 
 @SuppressLint("NewApi")
 @Composable
-fun SoundCommandView(scope: CoroutineScope, context: Context) {
+fun SoundCommandView(
+    scope: CoroutineScope,
+    context: Context,
+) {
     var showImage by remember { mutableStateOf(false) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         LaunchedEffect(key1 = Unit) {
             scope.launch {
@@ -92,8 +94,9 @@ fun SoundCommandView(scope: CoroutineScope, context: Context) {
             Image(
                 painter = painterResource(id = R.drawable.img_music),
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier =
+                    Modifier
+                        .fillMaxSize(),
                 contentScale = ContentScale.Fit,
             )
         }
@@ -107,13 +110,14 @@ private fun SoundContent() {
     val scope = rememberCoroutineScope()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Spacer(modifier = Modifier.size(20.dp))
         Text(
@@ -139,13 +143,15 @@ private fun SoundContent() {
             },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp, bottom = 34.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp, bottom = 34.dp),
         ) {
             Text(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 8.dp, bottom = 8.dp),
                 text = "PLAY A SOUND",
                 color = Color.White,
                 style = MaterialTheme.typography.button,

@@ -50,42 +50,47 @@ fun HomeScreen(
     val uiState = viewModel.uiState
     var commandReceived by remember { mutableStateOf("") }
     var commandValue by remember { mutableStateOf("") }
-    val appBarMenuItems = listOf(
-        AppBarMenuItem.Icon(
-            ImageVector.vectorResource(id = R.drawable.admin),
-            androidx.compose.ui.R.string.close_drawer,
-        ) { uiState.onAdminClicked() },
-        AppBarMenuItem.OverflowMenuItem(R.string.chat_option) {
-            navController.navigate(ChatRoute.createRoute())
-        },
-    )
-    val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
-            commandReceived = ""
-            commandValue = ""
-            intent.getStringExtra("color")?.let {
-                commandReceived = "color"
-                commandValue = it
-            }
-            intent.getStringExtra("image")?.let {
-                commandReceived = "image"
-                commandValue = it
-            }
-            intent.getStringExtra("sound")?.let {
-                commandReceived = "sound"
-            }
-            intent.getStringExtra("text")?.let {
-                commandReceived = "text"
-                commandValue = it
-            }
-            intent.getStringExtra("flash")?.let {
-                commandReceived = "flash"
-            }
-            intent.getStringExtra("show_main")?.let {
-                commandReceived = "main"
+    val appBarMenuItems =
+        listOf(
+            AppBarMenuItem.Icon(
+                ImageVector.vectorResource(id = R.drawable.admin),
+                androidx.compose.ui.R.string.close_drawer,
+            ) { uiState.onAdminClicked() },
+            AppBarMenuItem.OverflowMenuItem(R.string.chat_option) {
+                navController.navigate(ChatRoute.createRoute())
+            },
+        )
+    val broadcastReceiver: BroadcastReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(
+                context: Context?,
+                intent: Intent,
+            ) {
+                commandReceived = ""
+                commandValue = ""
+                intent.getStringExtra("color")?.let {
+                    commandReceived = "color"
+                    commandValue = it
+                }
+                intent.getStringExtra("image")?.let {
+                    commandReceived = "image"
+                    commandValue = it
+                }
+                intent.getStringExtra("sound")?.let {
+                    commandReceived = "sound"
+                }
+                intent.getStringExtra("text")?.let {
+                    commandReceived = "text"
+                    commandValue = it
+                }
+                intent.getStringExtra("flash")?.let {
+                    commandReceived = "flash"
+                }
+                intent.getStringExtra("show_main")?.let {
+                    commandReceived = "main"
+                }
             }
         }
-    }
 
     LocalBroadcastManager.getInstance(LocalContext.current).registerReceiver(
         broadcastReceiver,
@@ -120,19 +125,21 @@ fun HomeScreen(
 fun MainScreen() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                bottom = 40.dp,
-            ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    bottom = 40.dp,
+                ),
     ) {
         Image(
             painter = painterResource(id = R.drawable.bridgefy_complete_logo),
             contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .fillMaxSize(),
             contentScale = ContentScale.Fit,
         )
     }

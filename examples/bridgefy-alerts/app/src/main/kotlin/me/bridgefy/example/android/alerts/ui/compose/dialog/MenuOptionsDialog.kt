@@ -34,8 +34,9 @@ fun MenuOptionsDialog(
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
             color = backgroundColor,
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
         ) {
             Column {
                 // Title
@@ -53,8 +54,9 @@ fun MenuOptionsDialog(
                 options.forEach { menuOptionsDialogItem: MenuOptionsDialogItem ->
                     ListItem(
                         headlineContent = { Text(menuOptionsDialogItem.text()) },
-                        modifier = Modifier
-                            .clickable { menuOptionsDialogItem.onClick() },
+                        modifier =
+                            Modifier
+                                .clickable { menuOptionsDialogItem.onClick() },
                     )
                 }
             }
@@ -62,12 +64,13 @@ fun MenuOptionsDialog(
     }
 }
 
-data class MenuOptionsDialogItem(val text: @Composable () -> String, val onClick: () -> Unit)
+data class MenuOptionsDialogItem(
+    val text: @Composable () -> String,
+    val onClick: () -> Unit,
+)
 
 @Composable
-fun MenuOptionsDialog(
-    dialogUiState: MenuOptionsDialogUiState,
-) {
+fun MenuOptionsDialog(dialogUiState: MenuOptionsDialogUiState) {
     MenuOptionsDialog(
         onDismissRequest = dialogUiState.onDismissRequest,
         title = dialogUiState.title(),
@@ -90,11 +93,12 @@ fun PreviewMenuOptionsDialog() {
         MenuOptionsDialog(
             onDismissRequest = {},
             title = "Options",
-            options = listOf(
-                MenuOptionsDialogItem({ "Option 1" }) {},
-                MenuOptionsDialogItem({ "Option 2" }) {},
-                MenuOptionsDialogItem({ "Option 3" }) {},
-            ),
+            options =
+                listOf(
+                    MenuOptionsDialogItem({ "Option 1" }) {},
+                    MenuOptionsDialogItem({ "Option 2" }) {},
+                    MenuOptionsDialogItem({ "Option 3" }) {},
+                ),
         )
     }
 }

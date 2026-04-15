@@ -18,10 +18,13 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 
 @Composable
-fun DatePickerDialog(
-    dialogUiState: DatePickerDialogUiState,
-) {
-    val initialMs: Long? = dialogUiState.localDate?.atStartOfDay()?.atOffset(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
+fun DatePickerDialog(dialogUiState: DatePickerDialogUiState) {
+    val initialMs: Long? =
+        dialogUiState.localDate
+            ?.atStartOfDay()
+            ?.atOffset(ZoneOffset.UTC)
+            ?.toInstant()
+            ?.toEpochMilli()
     val datePickerState = rememberDatePickerState(initialMs)
     val onDismissButtonClicked = dialogUiState.onDismiss
 
@@ -39,28 +42,31 @@ fun DatePickerDialog(
                 Text(dialogUiState.confirmButtonText())
             }
         },
-        dismissButton = if (onDismissButtonClicked != null) { {
-            TextButton(
-                onClick = onDismissButtonClicked,
-            ) {
-                Text(dialogUiState.dismissButtonText())
-            }
-        }
-        } else {
-            null
-        },
+        dismissButton =
+            if (onDismissButtonClicked != null) {
+                {
+                    TextButton(
+                        onClick = onDismissButtonClicked,
+                    ) {
+                        Text(dialogUiState.dismissButtonText())
+                    }
+                }
+            } else {
+                null
+            },
     ) {
         DatePicker(
-            title = if (dialogUiState.title != null) {
-                dialogUiState.title
-            } else {
-                {
-                    DatePickerDefaults.DatePickerTitle(
-                        displayMode = datePickerState.displayMode,
-                        modifier = Modifier.padding(PaddingValues(start = 24.dp, end = 12.dp, top = 16.dp)), // DatePickerTitlePadding
-                    )
-                }
-            },
+            title =
+                if (dialogUiState.title != null) {
+                    dialogUiState.title
+                } else {
+                    {
+                        DatePickerDefaults.DatePickerTitle(
+                            displayMode = datePickerState.displayMode,
+                            modifier = Modifier.padding(PaddingValues(start = 24.dp, end = 12.dp, top = 16.dp)), // DatePickerTitlePadding
+                        )
+                    }
+                },
             state = datePickerState,
         )
     }

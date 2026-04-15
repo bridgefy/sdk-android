@@ -27,9 +27,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import me.bridgefy.example.android.alerts.R
 import me.bridgefy.example.android.alerts.ui.compose.menu.OverflowMenuItem
 import me.bridgefy.example.android.alerts.ui.compose.menu.OverflowMenuItemsContent
-import me.bridgefy.example.android.alerts.R
 
 @Composable
 fun AppBarMenu(menuItems: List<AppBarMenuItem>) {
@@ -51,7 +51,11 @@ fun AppBarMenu(menuItems: List<AppBarMenuItem>) {
 }
 
 @Composable
-fun AppBarIcon(imageVector: ImageVector, contentDescription: String, action: () -> Unit) {
+fun AppBarIcon(
+    imageVector: ImageVector,
+    contentDescription: String,
+    action: () -> Unit,
+) {
     TooltipBox(
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = {
@@ -77,12 +81,16 @@ fun AppBarIcon(menuItem: AppBarMenuItem.Icon) {
     AppBarIcon(
         menuItem.imageVector,
         menuItem.text(),
-        menuItem.action
+        menuItem.action,
     )
 }
 
 @Composable
-fun AppBarText(text: String, colors: ButtonColors? = null, action: () -> Unit) {
+fun AppBarText(
+    text: String,
+    colors: ButtonColors? = null,
+    action: () -> Unit,
+) {
     TextButton(
         onClick = action,
         colors = colors ?: ButtonDefaults.textButtonColors(),
@@ -97,17 +105,22 @@ fun AppBarText(menuItem: AppBarMenuItem.Text) {
 }
 
 @Composable
-fun AppBarTextButton(text: String, colors: ButtonColors? = null, action: () -> Unit) {
+fun AppBarTextButton(
+    text: String,
+    colors: ButtonColors? = null,
+    action: () -> Unit,
+) {
     Row {
         Button(
             onClick = action,
             colors = colors ?: ButtonDefaults.buttonColors(),
-            contentPadding = PaddingValues(
-                start = 12.dp,
-                top = 8.dp,
-                end = 12.dp,
-                bottom = 8.dp,
-            ),
+            contentPadding =
+                PaddingValues(
+                    start = 12.dp,
+                    top = 8.dp,
+                    end = 12.dp,
+                    bottom = 8.dp,
+                ),
         ) {
             Text(text)
         }
@@ -143,40 +156,62 @@ fun AppBarOverflowMenu(menuItems: List<AppBarMenuItem>) {
         onDismissRequest = { expanded.value = false },
     ) {
         // Convert AppBarMenuItem to OverflowMenuItem
-        val overflowMenuItems: List<OverflowMenuItem> = menuItems
-            .filter { it.isOverFlowItem() }
-            .map {
-                when (it) {
-                    is OverflowMenuItem.MenuItem -> it
-                    is OverflowMenuItem.Divider -> it
-                    else -> error("Unsupported OverflowMenuItem type")
+        val overflowMenuItems: List<OverflowMenuItem> =
+            menuItems
+                .filter { it.isOverFlowItem() }
+                .map {
+                    when (it) {
+                        is OverflowMenuItem.MenuItem -> it
+                        is OverflowMenuItem.Divider -> it
+                        else -> error("Unsupported OverflowMenuItem type")
+                    }
                 }
-            }
 
         OverflowMenuItemsContent(overflowMenuItems, expanded)
     }
 }
 
 sealed interface AppBarMenuItem {
-    class Icon(val imageVector: ImageVector, val text: @Composable () -> String, val action: () -> Unit) :
-        AppBarMenuItem {
-        constructor(imageVector: ImageVector, @StringRes textId: Int, action: () -> Unit) : this(imageVector = imageVector, text = { stringResource(textId) }, action = action)
+    class Icon(
+        val imageVector: ImageVector,
+        val text: @Composable () -> String,
+        val action: () -> Unit,
+    ) : AppBarMenuItem {
+        constructor(
+            imageVector: ImageVector,
+            @StringRes textId: Int,
+            action: () -> Unit,
+        ) : this(imageVector = imageVector, text = { stringResource(textId) }, action = action)
     }
 
     /**
      * If setting colors, consider using ButtonDefaults.textButtonColors(contentColor = LocalContentColor.current)
      */
-    class Text(val text: @Composable () -> String, val colors: ButtonColors? = null, val action: () -> Unit) :
-        AppBarMenuItem {
-        constructor(@StringRes textId: Int, colors: ButtonColors? = null, action: () -> Unit) : this(text = { stringResource(textId) }, colors = colors, action = action)
+    class Text(
+        val text: @Composable () -> String,
+        val colors: ButtonColors? = null,
+        val action: () -> Unit,
+    ) : AppBarMenuItem {
+        constructor(
+            @StringRes textId: Int,
+            colors: ButtonColors? = null,
+            action: () -> Unit,
+        ) : this(text = { stringResource(textId) }, colors = colors, action = action)
     }
 
     /**
      * If setting colors, consider using ButtonDefaults.buttonColors(contentColor = LocalContentColor.current)
      */
-    class TextButton(val text: @Composable () -> String, val colors: ButtonColors? = null, val action: () -> Unit) :
-        AppBarMenuItem {
-        constructor(@StringRes textId: Int, colors: ButtonColors? = null, action: () -> Unit) : this(text = { stringResource(textId) }, colors = colors, action = action)
+    class TextButton(
+        val text: @Composable () -> String,
+        val colors: ButtonColors? = null,
+        val action: () -> Unit,
+    ) : AppBarMenuItem {
+        constructor(
+            @StringRes textId: Int,
+            colors: ButtonColors? = null,
+            action: () -> Unit,
+        ) : this(text = { stringResource(textId) }, colors = colors, action = action)
     }
 
     class OverflowMenuItem(
@@ -184,8 +219,19 @@ sealed interface AppBarMenuItem {
         override val leadingIcon: ImageVector? = null,
         override val trailingIcon: ImageVector? = null,
         override val action: () -> Unit,
-    ) : AppBarMenuItem, me.bridgefy.example.android.alerts.ui.compose.menu.OverflowMenuItem.MenuItem(text, leadingIcon, trailingIcon, action) {
-        constructor(@StringRes textId: Int, leadingIcon: ImageVector? = null, trailingIcon: ImageVector? = null, action: () -> Unit) : this(
+    ) : me.bridgefy.example.android.alerts.ui.compose.menu.OverflowMenuItem.MenuItem(
+            text,
+            leadingIcon,
+            trailingIcon,
+            action,
+        ),
+        AppBarMenuItem {
+        constructor(
+            @StringRes textId: Int,
+            leadingIcon: ImageVector? = null,
+            trailingIcon: ImageVector? = null,
+            action: () -> Unit,
+        ) : this(
             text = { stringResource(textId) },
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,

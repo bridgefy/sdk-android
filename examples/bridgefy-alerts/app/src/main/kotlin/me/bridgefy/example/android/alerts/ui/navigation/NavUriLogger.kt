@@ -15,8 +15,15 @@ import timber.log.Timber
  * Usage: navController.addOnDestinationChangedListener(NavUriLogger())
  */
 @Suppress("MemberVisibilityCanBePrivate")
-class NavUriLogger(val prefix: String = "", var priority: Int = Log.DEBUG) : NavController.OnDestinationChangedListener {
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+class NavUriLogger(
+    val prefix: String = "",
+    var priority: Int = Log.DEBUG,
+) : NavController.OnDestinationChangedListener {
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?,
+    ) {
         arguments?.parcelable<Intent>(NavController.KEY_DEEP_LINK_INTENT)?.data?.let { deepLinkUri ->
             val uri = deepLinkUri.toString()
             if (uri.startsWith(ROUTE_PREFIX)) {
@@ -33,7 +40,14 @@ class NavUriLogger(val prefix: String = "", var priority: Int = Log.DEBUG) : Nav
     }
 }
 
-private inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
-    Build.VERSION.SDK_INT >= 33 -> getParcelable(key, T::class.java)
-    else -> @Suppress("DEPRECATION") getParcelable(key) as? T
-}
+private inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? =
+    when {
+        Build.VERSION.SDK_INT >= 33 -> {
+            getParcelable(key, T::class.java)
+        }
+
+        else -> {
+            @Suppress("DEPRECATION")
+            getParcelable(key) as? T
+        }
+    }
